@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "scheme": "biossa",
+    "plugins": [
+      "expo-router",
+      "expo-font"
+    ],
+    "name": "BIOSSA KNUST",
+    "slug": "biossa-knust",
+    "icon": "./assets/images/logo.jpg",
+    "newArchEnabled": true,
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/logo.jpg",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.thexenon.biossa_knust"
+    },
+    "web": {
+      "favicon": "./assets/images/logo.jpg"
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "d63a8a7a-101b-4808-b9f5-f4cffc00bb98"
+      }
+    },
+    "ios": {
+      "bundleIdentifier": "com.thexenon.biossaknust"
+    }
+  }
+}
