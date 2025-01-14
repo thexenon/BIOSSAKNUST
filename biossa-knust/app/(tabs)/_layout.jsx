@@ -55,15 +55,15 @@ const TabLayout = () => {
         />
 
         <Tabs.Screen
-          name="anonques"
+          name="anonmain"
           options={{
-            title: "Anon Send",
+            title: "Anon Main",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.eyeHide}
                 color={color}
-                name="Anon Send"
+                name="Anon Main"
                 focused={focused}
               />
             ),
@@ -71,15 +71,15 @@ const TabLayout = () => {
         />
 
         <Tabs.Screen
-          name="anonchats"
+          name="anonyeargroup"
           options={{
-            title: "Anon Chats",
+            title: "Anon TAB",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
-                icon={icons.eye}
+                icon={icons.eyeHide}
                 color={color}
-                name="Anon Chats"
+                name="Anon TAB"
                 focused={focused}
               />
             ),

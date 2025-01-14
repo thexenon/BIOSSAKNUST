@@ -10,8 +10,8 @@ const styles = StyleSheet.create({
   safeSpace: {
     flex: 1,
     flexDirection: "column",
-    marginVertical: 10,
-    paddingVertical: 10,
+    marginTop: 15,
+    paddingTop: 10,
   },
   // Welcome
   welcome: {
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     // // height: 20,
   },
   textWrapper: {
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.gray2,
     // margin: SIZES.small,
     justifyContent: "center",
     alignItems: "center",

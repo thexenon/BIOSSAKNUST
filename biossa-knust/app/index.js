@@ -9,7 +9,7 @@ const Splash = () => {
   useEffect(() => {
     setTimeout(() => {
       router.replace("/home");
-    }, 10000);
+    }, 1000);
   });
 
   return (
@@ -37,10 +37,9 @@ const Splash = () => {
           />
 
           <Text style={styles.welcome}>Powered by</Text>
-          <Text style={styles.churchName}>OPTYXENON GROUPS</Text>
 
           <Image
-            style={{ height: 300, width: "100%", alignSelf: "center" }}
+            style={{ height: 150, width: "100%", alignSelf: "center" }}
             source={images.optyxenon}
             resizeMode="contain"
           />
