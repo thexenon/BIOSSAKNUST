@@ -19,7 +19,7 @@ import { COLORS, SIZES } from "../../constants";
 import styles from "../../styles/globalStyles";
 import { ErrorView } from "../../components";
 
-const link = "https://wins-family.onrender.com";
+const link = "https://biossaknust.onrender.com";
 
 const AnonChats = () => {
   const router = useRouter();
