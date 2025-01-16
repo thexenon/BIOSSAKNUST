@@ -11,7 +11,6 @@ import {
   FlatList,
   ScrollView,
   Alert,
-  Image,
   TextInput,
   SafeAreaView,
 } from "react-native";
@@ -66,7 +65,7 @@ const AnonChats = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredData = data.filter((item) =>
-    item.title.toLowerCase().includes(searchQuery.toLowerCase())
+    item.message.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -106,13 +105,20 @@ const AnonChats = () => {
                 }}>
                 <Text style={styles.homeheaderBtn}>Show All</Text>
               </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  router.push("/createanon/main");
+                }}>
+                <Text style={styles.homeheaderTitle}>Add New</Text>
+              </TouchableOpacity>
             </View>
 
             <View style={styles.homecardsContainer}>
               {isLoading ? (
                 <ActivityIndicator size="large" color={COLORS.primary} />
               ) : error ? (
-                <ErrorView msg={"Something went wrong. Please try again"} />
+                ((<ErrorView msg={"Something went wrong. Please try again"} />),
+                Alert.alert("Something went wrong.", error.message))
               ) : data.length === 0 || data == null ? (
                 <ErrorView msg={"No Data!!!"} />
               ) : (
@@ -143,27 +149,15 @@ const AnonChats = () => {
 const MainAnonCard = React.memo(({ mainanon, handleNavigate }) => {
   return (
     <TouchableOpacity style={styles.container} onPress={() => handleNavigate()}>
-      <TouchableOpacity
-        style={styles.logoContainer}
-        onPress={() => handleNavigate()}>
-        <Image
-          source={{ uri: `${link}/img/mainanons/${mainanon?.fileSRC}` }}
-          resizeMode="cover"
-          style={styles.logoImage}
-        />
-      </TouchableOpacity>
-
       <View style={styles.textContainer}>
-        <Text style={styles.mainanonName} numberOfLines={1}>
-          {mainanon?.title}
-        </Text>
-        <Text style={styles.mainanonSummary}>{mainanon?.summary}</Text>
-        <Text style={styles.mainanonComment}>
+        <Text style={styles.anonName}>{mainanon?.message}</Text>
+        <Text style={styles.anonComment}>
           Comments: {mainanon.comments.length}
         </Text>
-        {/* <Text style={styles.mainanonLike}>
-          Likes: {mainanon.reactionsTotal}
-        </Text> */}
+        <Text style={styles.anonLike}>Likes: {mainanon.reactions.length}</Text>{" "}
+        <Text style={styles.commentComment}>
+          Posted at: {mainanon?.createdAt.split("T").join(" ")}
+        </Text>
       </View>
     </TouchableOpacity>
   );

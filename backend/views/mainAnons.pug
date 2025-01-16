@@ -1,0 +1,34 @@
+extends base
+include _reviewCard
+
+
+mixin overviewBox(label, text, icon)
+  .overview-box__detail
+    svg.overview-box__icon
+      use(xlink:href=`/img/icons.svg#icon-${icon}`)
+    span.overview-box__label= label
+    span.overview-box__text= text
+
+block content
+
+
+  section.section-description
+    .overview-box
+      div
+        .overview-box__group
+          h2.heading-secondary.ma-bt-lg
+        .overview-box__group
+          h2.heading-secondary.ma-bt-lg= mainAnons.message
+        .overview-box__group
+          h2.heading-secondary.ma-bt-lg Quick facts
+
+          - const date = mainAnons.createdAt.toLocaleString('en-us', {day: 'numeric', month: 'long', year: 'numeric'})
+          +overviewBox('Posted on:', date, 'calendar')
+          +overviewBox('Comments', `${mainAnons.comments.length}`, 'user')
+          +overviewBox('Likes', `${mainAnons.reactions.length}`, 'user')
+
+
+  section.section-reviews
+    .reviews
+      each review in mainAnons.comments
+        +reviewCard(review)

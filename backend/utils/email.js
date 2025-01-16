@@ -7,7 +7,7 @@
 //     this.to = user.email;
 //     this.firstName = user.name.split(' ')[0];
 //     this.url = url;
-//     this.from = `Wins Family Chapel <${process.env.EMAIL_FROM}>`;
+//     this.from = `BIOSSA - KNUST <${process.env.EMAIL_FROM}>`;
 //   }
 
 //   newTransport() {
@@ -55,7 +55,7 @@
 //   }
 
 //   async sendWelcome() {
-//     await this.send('welcome', 'Welcome to the Wins Family!');
+//     await this.send('welcome', 'Welcome to the BIOSSA - KNUST!');
 //   }
 
 //   async sendPasswordReset() {

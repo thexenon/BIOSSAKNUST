@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { View, ScrollView, SafeAreaView, Text, Image } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { COLORS, images, SIZES } from "../constants";
 import styles from "../styles/globalStyles";
@@ -8,9 +9,18 @@ const Splash = () => {
   const router = useRouter();
   useEffect(() => {
     setTimeout(() => {
-      router.replace("/home");
-    }, 1000);
+      isUserLoggedIn();
+    }, 10000);
   });
+
+  const isUserLoggedIn = async () => {
+    const token = await AsyncStorage.getItem("jwt");
+    if (!token) {
+      router.replace("/auth");
+    } else {
+      router.replace("/home");
+    }
+  };
 
   return (
     <SafeAreaView

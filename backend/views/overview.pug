@@ -1,0 +1,28 @@
+extends base
+
+block content
+  main.main
+    .card-container
+    
+      each mainAnon in mainAnons
+        .card
+          .card__details
+            h4.card__sub-heading= `${mainAnon.message}`
+            //- p.card__text= 
+            .card__data
+              svg.card__icon
+                use(xlink:href='/img/icons.svg#icon-map-pin')
+              -const date = mainAnon.createdAt.toLocaleString('en-us', {day: 'numeric', month: 'long', year: 'numeric'})
+              span= date
+
+
+          .card__footer
+            p
+              span.card__footer-value= `${mainAnon.comments.length}`
+              | 
+              span.card__footer-text Comments
+            p
+              span.card__footer-value= `${mainAnon.reactions.length}`
+              | 
+              span.card__footer-text Likes
+            a.btn.btn--green.btn--small(href=`/mainanon/${mainAnon._id}`) View more

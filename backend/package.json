@@ -1,7 +1,7 @@
 {
   "name": "biossa-knust",
   "version": "1.0.0",
-  "description": "Wins Family Chaple International Backend",
+  "description": "BIOSSA - KNUST Backend",
   "main": "server.js",
   "author": "Derek Donkor (@thexenon)",
   "license": "ISC",

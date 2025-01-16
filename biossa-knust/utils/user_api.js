@@ -30,27 +30,39 @@ export const user_signup = async (reqData) => {
   }
 };
 
-export const submitComment = async (reqData, scriptureID) => {
+export const submitComment = async (reqData, reqParams) => {
   try {
-    const result = await ApiManager(
-      `/api/v1/scriptures/${scriptureID}/comments`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: reqData,
-      }
-    );
+    const result = await ApiManager(`/api/v1/${reqParams}/comments`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: reqData,
+    });
     return result;
   } catch (error) {
     return error.response.data;
   }
 };
 
-export const submitReactionLike = async (reqData, scriptureID) => {
+export const submitPost = async (reqData, reqParams) => {
   try {
-    const result = await ApiManager(`/api/v1/scriptures/${scriptureID}`, {
+    const result = await ApiManager(`/api/v1/${reqParams}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: reqData,
+    });
+    return result;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const submitReactionLike = async (reqData, reqParams) => {
+  try {
+    const result = await ApiManager(`/api/v1/${reqParams}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

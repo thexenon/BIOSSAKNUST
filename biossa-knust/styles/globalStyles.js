@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     tintColor: COLORS.white,
   },
 
-  // Scripture Card
+  // anon Card
   container: {
     justifyContent: "space-between",
     alignItems: "center",
@@ -253,6 +253,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
     ...SHADOWS.medium,
     shadowColor: COLORS.white,
+    width: "100%",
+    paddingVertical: 10,
+    marginVertical: 10,
+    backgroundColor: COLORS.gray2,
   },
   logoContainer: {
     width: 120,
@@ -270,36 +274,37 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: SIZES.medium,
   },
-  scriptureName: {
+  anonName: {
     fontSize: SIZES.medium,
     fontFamily: "DMBold",
     color: COLORS.primary,
   },
-  scriptureSummary: {
+  anonSummary: {
     fontSize: SIZES.small + 2,
     fontFamily: "DMRegular",
     color: COLORS.gray,
     marginTop: 3,
     textTransform: "capitalize",
   },
-  descscriptureSummary: {
+  anonMessage: {
     fontSize: SIZES.xLarge,
     fontFamily: "DMBold",
     color: COLORS.primary,
     textAlign: "center",
+    marginVertical: 15,
   },
-  descscriptureDesc: {
+  descanonDesc: {
     fontSize: SIZES.large,
     textAlign: "left",
   },
-  scriptureComment: {
+  anonComment: {
     fontSize: SIZES.small + 2,
     fontFamily: "DMBold",
     color: "#fff574",
     marginTop: 3,
     textTransform: "capitalize",
   },
-  scriptureLike: {
+  anonLike: {
     fontSize: SIZES.small + 2,
     fontFamily: "DMRegular",
     color: "#fb4141",
@@ -351,7 +356,7 @@ const styles = StyleSheet.create({
   },
 
   userName: {
-    fontSize: SIZES.large,
+    fontSize: SIZES.xLarge,
     fontFamily: "DMBold",
     color: COLORS.primary,
   },
@@ -364,7 +369,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   userBody: {
-    fontSize: SIZES.medium + 2,
+    fontSize: SIZES.large,
     fontFamily: "DMRegular",
     color: COLORS.gray,
     marginTop: 3,
@@ -376,8 +381,9 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
     alignSelf: "center",
     borderRadius: 30,
-    width: "80%",
+    width: "85%",
     paddingVertical: 20,
+    marginVertical: 20,
   },
   btnLinkText: {
     color: "#ffffff",

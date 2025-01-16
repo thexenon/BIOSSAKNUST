@@ -33,9 +33,9 @@ app.use((req, res, next) => {
   next();
 });
 
-// // View engine
-// app.set('view engine', 'pug');
-// app.set('views', path.join(__dirname, 'views'));
+// View engine
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -82,7 +82,7 @@ app.use((req, res, next) => {
 
 app.use(compression());
 // 3) Routes
-// app.use('/', viewRouter);
+app.use('/', viewRouter);
 app.use('/api/v1/maincomments', mainCommentRouter);
 app.use('/api/v1/mainanons', mainAnonRouter);
 app.use('/api/v1/yearcomments', yearCommentRouter);
@@ -94,4 +94,5 @@ app.all('*', (req, res, next) => {
 });
 
 app.use(myErrorHandler);
+
 module.exports = app;

@@ -85,6 +85,38 @@ const TabLayout = () => {
             ),
           }}
         />
+
+        <Tabs.Screen
+          name="slides"
+          options={{
+            title: "Slides",
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon
+                icon={icons.boxes}
+                color={color}
+                name="Slides"
+                focused={focused}
+              />
+            ),
+          }}
+        />
+
+        <Tabs.Screen
+          name="profile"
+          options={{
+            title: "Profile",
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon
+                icon={icons.profile}
+                color={color}
+                name="Profile"
+                focused={focused}
+              />
+            ),
+          }}
+        />
       </Tabs>
 
       <StatusBar backgroundColor="#161622" style="light" />

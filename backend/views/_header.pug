@@ -1,0 +1,12 @@
+header.header
+  nav.nav.nav--tours
+    a.nav__el(href='/') BIOSSA - KNUST | All Messages
+  .header__logo
+    img(src='/img/favicons/logo.png' alt='BIOSSA - KNUST logo')
+  nav.nav.nav--user
+    if user
+      a.nav__el.nav__el--logout Log out
+      a.nav__el(href='/me')
+        span= user.name
+    else
+      a.nav__el.nav__el--cta(href='/login') Log in

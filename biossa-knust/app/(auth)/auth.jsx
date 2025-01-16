@@ -13,7 +13,7 @@ const Auth = () => {
         <View style={{ flex: 1, padding: SIZES.medium }}>
           <Text style={styles.welcome}>Welcome to</Text>
           <Text style={styles.churchName}>
-            Wins Family Chapel International
+            Biological Sciences Students's Association, BIOSSA - KNUST
           </Text>
 
           <Image

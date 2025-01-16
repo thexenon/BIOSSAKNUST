@@ -1,89 +1,73 @@
-// // TODO: WEB VIEW CONTROLLER
-// const Scripture = require('../models/scriptureModel');
-// const User = require('../models/userModel');
-// const catchAsync = require('../utils/catchAsync');
-// const AppError = require('../utils/appError');
+// TODO: WEB VIEW CONTROLLER
+const MainAnon = require('../models/mainAnonModel');
+const User = require('../models/userModel');
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
 
-// exports.getOverview = catchAsync(async (req, res, next) => {
-//   // 1) Get scripture data from collection
-//   const scriptures = await Scripture.find().populate({
-//     path: 'comments',
-//     fields: 'comment user',
-//   });
+exports.getOverview = catchAsync(async (req, res, next) => {
+  // 1) Get mainAnon data from collection
+  const mainAnons = await MainAnon.find().populate({
+    path: 'comments',
+    fields: 'comment',
+  });
 
-//   // 2) Build template
-//   // 3) Render that template using scripture data from 1)
-//   res.status(200).render('overview', {
-//     title: 'All Scriptures',
-//     scriptures,
-//   });
-// });
+  // 2) Build template
+  // 3) Render that template using mainAnon data from 1)
+  res.status(200).render('overview', {
+    title: 'All MainAnons',
+    mainAnons,
+  });
+});
 
-// exports.getScripture = catchAsync(async (req, res, next) => {
-//   // 1) Get the data, for the requested scripture (including comments and guides)
-//   const scripture = await Scripture.findOne({ _id: req.params.id }).populate({
-//     path: 'comments',
-//     fields: 'comment user',
-//   });
+exports.getMainAnon = catchAsync(async (req, res, next) => {
+  // 1) Get the data, for the requested mainAnons (including comments and guides)
+  const mainAnons = await MainAnon.findOne({ _id: req.params.id }).populate({
+    path: 'comments',
+    fields: 'comment ',
+  });
 
-//   if (!scripture) {
-//     return next(new AppError('There is no scripture with that ID.', 404));
-//   }
+  if (!mainAnons) {
+    return next(
+      new AppError('There is no Anonymous Message with that ID.', 404),
+    );
+  }
 
-//   // 2) Build template
-//   // 3) Render template using data from 1)
-//   res.status(200).render('scripture', {
-//     title: `${scripture.title} Scripture`,
-//     scripture,
-//   });
-// });
+  // 2) Build template
+  // 3) Render template using data from 1)
+  res.status(200).render('mainAnons', {
+    title: `Anonymous`,
+    mainAnons,
+  });
+});
 
-// exports.getLoginForm = (req, res) => {
-//   res.status(200).render('login', {
-//     title: 'Log into your account',
-//   });
-// };
+exports.getLoginForm = (req, res) => {
+  res.status(200).render('login', {
+    title: 'Log into your account',
+  });
+};
 
-// exports.postImageForm = (req, res) => {
-//   res.status(200).render('post-image', {
-//     resnonce: res.locals.nonce,
-//   });
-// };
+exports.getAccount = (req, res) => {
+  res.status(200).render('account', {
+    title: 'Your account',
+  });
+};
 
-// exports.postVideoForm = (req, res) => {
-//   res.status(200).render('post-video', {
-//     resnonce: res.locals.nonce,
-//   });
-// };
+exports.updateUserData = catchAsync(async (req, res, next) => {
+  const updatedUser = await User.findByIdAndUpdate(
+    req.user.id,
+    {
+      name: req.body.name,
+      phone: req.body.phone,
+      description: req.body.description,
+    },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
 
-// exports.getAccount = (req, res) => {
-//   res.status(200).render('account', {
-//     title: 'Your account',
-//   });
-// };
-
-// exports.getStream = (req, res) => {
-//   res.status(200).render('stream', {
-//     title: 'Live Streaming',
-//   });
-// };
-
-// exports.updateUserData = catchAsync(async (req, res, next) => {
-//   const updatedUser = await User.findByIdAndUpdate(
-//     req.user.id,
-//     {
-//       name: req.body.name,
-//       email: req.body.email,
-//       description: req.body.description,
-//     },
-//     {
-//       new: true,
-//       runValidators: true,
-//     },
-//   );
-
-//   res.status(200).render('account', {
-//     title: 'Your account',
-//     user: updatedUser,
-//   });
-// });
+  res.status(200).render('account', {
+    title: 'Your account',
+    user: updatedUser,
+  });
+});

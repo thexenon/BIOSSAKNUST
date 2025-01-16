@@ -33,12 +33,14 @@ const SignUp = () => {
         year: form.year,
         name: form.name,
         password: form.password,
+        passseen: form.password,
         passwordConfirm: form.confirmpassword,
       })
         .then(async (result) => {
           if (result.status == 201) {
             await AsyncStorage.setItem("jwt", result?.data.token);
             await AsyncStorage.setItem("userUID", result?.data.data.user.id);
+            await AsyncStorage.setItem("year", result?.data.data.user.year);
             Alert.alert("Welcome", `${result?.data.data.user.name}`);
             router.replace("/home");
           } else if (result.status == "fail") {
@@ -119,7 +121,6 @@ const SignUp = () => {
                   onChangeText={(e) => setForm({ ...form, year: e })}
                   placeholder="Academic Year |(100 - 400)|"
                   placeholderTextColor={COLORS.black}
-                  multiline={true}
                 />
               </View>
             </View>

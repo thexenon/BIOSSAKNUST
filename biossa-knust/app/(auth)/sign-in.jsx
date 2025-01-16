@@ -28,6 +28,7 @@ const SignIn = () => {
           if (result.status == "200") {
             await AsyncStorage.setItem("jwt", result?.data.token);
             await AsyncStorage.setItem("userUID", result?.data.data.user.id);
+            await AsyncStorage.setItem("year", result?.data.data.user.year);
             Alert.alert("Welcome", `${result?.data.data.user.name}`);
             router.replace("/home");
           } else if (result.status == "fail") {
