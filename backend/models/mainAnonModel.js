@@ -7,12 +7,13 @@ const mainAnonSchema = new mongoose.Schema(
       required: [true, 'A message must be set'],
       trim: true,
       minlength: [10, 'Message can not be less than 10 characters'],
+      maxlength: [600, 'Message can not be more than 600 characters'],
     },
     sender: { type: mongoose.Schema.ObjectId, ref: 'User' },
     reactions: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
     createdAt: {
       type: Date,
-      default: Date.now(),
+      default: Date.now,
     },
   },
   {

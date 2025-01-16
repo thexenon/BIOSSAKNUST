@@ -7,6 +7,7 @@ const yearAnonSchema = new mongoose.Schema(
       required: [true, 'A message must be set'],
       trim: true,
       minlength: [10, 'Message can not be less than 10 characters'],
+      maxlength: [600, 'Message can not be more than 600 characters'],
     },
     year: {
       type: String,
@@ -20,7 +21,7 @@ const yearAnonSchema = new mongoose.Schema(
     reactions: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
     createdAt: {
       type: Date,
-      default: Date.now(),
+      default: Date.now,
     },
   },
   {

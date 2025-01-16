@@ -20,6 +20,7 @@ import { ScreenHeaderBtn, ErrorView } from "../../components";
 import { COLORS, icons, SIZES } from "../../constants";
 import styles from "../../styles/globalStyles";
 import { submitComment, submitReactionLike } from "../../utils/user_api";
+import Icon from "react-native-vector-icons/Ionicons";
 
 const link = "https://biossaknust.onrender.com";
 
@@ -44,7 +45,6 @@ const AnonDetails = () => {
     try {
       const response = await axios.request(options);
       setData(response.data.data.data);
-      console.log(response.data.data.data);
       setIsLoading(false);
       setStatus(response.data.status);
     } catch (error) {
@@ -69,34 +69,38 @@ const AnonDetails = () => {
   const submitMyComment = async () => {
     if (commentText.comment == "") {
       Alert.alert("Error", "Please fill in a comment");
-    }
+    } else {
+      setSubmitting(true);
+      if (isSubmitting) {
+        return <ActivityIndicator size="large" color={COLORS.primary} />;
+      }
 
-    setSubmitting(true);
-    if (isSubmitting) {
-      return <ActivityIndicator size="large" color={COLORS.primary} />;
-    }
-
-    try {
-      await submitComment(
-        { comment: commentText.comment },
-        `yearanons/${params.id}`
-      )
-        .then((result) => {
-          if (result.status == "201") {
-            Alert.alert("Success", "Comment Submitted");
-          } else if (result.status == "fail") {
-            Alert.alert(`${result.status.toUpperCase()}`, `${result.message}`);
-          } else {
-            Alert.alert("Somethin went wrong. Please try again later");
-          }
-        })
-        .catch((err) => {
-          Alert.alert("Error", err);
-        });
-    } catch (error) {
-      Alert.alert("Error", error.message);
-    } finally {
-      setSubmitting(false);
+      try {
+        await submitComment(
+          { comment: commentText.comment },
+          `yearanons/${params.id}`
+        )
+          .then((result) => {
+            if (result.status == "201") {
+              setCommentText({ comment: "" });
+              fetchData();
+            } else if (result.status == "fail") {
+              Alert.alert(
+                `${result.status.toUpperCase()}`,
+                `${result.message}`
+              );
+            } else {
+              Alert.alert("Somethin went wrong. Please try again later");
+            }
+          })
+          .catch((err) => {
+            Alert.alert("Error", err);
+          });
+      } catch (error) {
+        Alert.alert("Error", error.message);
+      } finally {
+        setSubmitting(false);
+      }
     }
   };
 
@@ -111,11 +115,8 @@ const AnonDetails = () => {
         `yearanons/${params.id}`
       )
         .then((result) => {
-          // console.log(result);
-          // console.log(myUID);
-
           if (result.status == "200") {
-            Alert.alert("Success", "Reaction Submitted");
+            fetchData();
           } else if (result.status == "fail") {
             Alert.alert(`${result.status.toUpperCase()}`, `${result.message}`);
           } else {
@@ -133,19 +134,12 @@ const AnonDetails = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#355e3b" }}>
       <Stack.Screen
         options={{
           headerStyle: { backgroundColor: COLORS.lightWhite },
           headerShadowVisible: false,
-          headerBackVisible: false,
-          headerLeft: () => (
-            <ScreenHeaderBtn
-              iconUrl={icons.left}
-              dimension="60%"
-              handlePress={() => router.back()}
-            />
-          ),
+          headerBackVisible: true,
           headerTitle: `Message Details`,
         }}
       />
@@ -166,38 +160,62 @@ const AnonDetails = () => {
             <View style={{ padding: SIZES.medium, paddingBottom: 20 }}>
               <View
                 style={{
-                  backgroundColor: "#008000",
-                  width: "100%",
-                  paddingVertical: 10,
-                  alignContent: "center",
-                  alignItems: "center",
+                  backgroundColor: COLORS.lightWhite,
+                  borderRadius: 20,
+                  paddingVertical: 15,
                 }}>
-                <Text style={styles.homeheaderTitle}>Anonymous Message</Text>
-              </View>
-              <View style={styles.textContainer}>
-                <Text style={styles.anonMessage}>{data?.message}</Text>{" "}
-                <Text style={styles.anonComment}>
-                  Comments: {data.comments.length}
-                </Text>
-                <Text style={styles.anonLike}>
-                  Likes: {data.reactions.length}
-                </Text>{" "}
-                <Text style={styles.commentComment}>
-                  Posted at: {data?.createdAt.split("T").join(" ")}
-                </Text>
+                <View style={styles.textContainer}>
+                  <Text style={styles.anonName}>{data?.message}</Text>{" "}
+                  <View
+                    style={{
+                      flex: 1,
+                      flexDirection: "row",
+                      marginTop: 10,
+                    }}>
+                    <Text style={styles.anonComment}>
+                      {data.comments.length} Comments
+                    </Text>
+                    <View style={{ paddingRight: 15 }} />
+
+                    <TouchableOpacity
+                      onPress={submitMyReactionLike}
+                      style={{
+                        paddingRight: 10,
+                        justifyContent: "center",
+                        alignItems: "center",
+                        alignContent: "center",
+                        alignSelf: "center",
+                      }}>
+                      <Icon name={"heart"} size={20} color={"#355e3b"} />
+                    </TouchableOpacity>
+                    <Text style={styles.anonLike}>
+                      {data.reactions.length} Likes
+                    </Text>
+                    <View style={{ paddingRight: 15 }} />
+                    <Icon name={"time"} size={20} color={"#355e3b"} />
+                    <Text
+                      style={{
+                        alignContent: "end",
+                        alignSelf: "flex-end",
+                        fontSize: 12,
+                      }}>
+                      {"   "}
+                      {data?.createdAt.split("T")[0]}
+                      {"   "}
+                      {data?.createdAt.split("T")[1].split(".")[0]}
+                    </Text>
+                  </View>
+                </View>
               </View>
               <View
                 style={{
-                  backgroundColor: "#008000",
                   width: "100%",
                   paddingVertical: 10,
                   alignContent: "center",
                   alignItems: "center",
-                }}>
-                <Text style={styles.homeheaderTitle}>
-                  All Comments for this message
-                </Text>
-              </View>
+                  borderRadius: 20,
+                }}
+              />
               {isLoading ? (
                 <ActivityIndicator size="large" color={COLORS.primary} />
               ) : error ? (
@@ -215,9 +233,9 @@ const AnonDetails = () => {
                 />
               )}
               <View style={{ flexDirection: "row" }}>
-                <View style={styles.searchcontainer}>
+                <View style={styles.commentsearchcontainer}>
                   <View style={styles.commentContainer}>
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                       style={styles.commentBtnLike}
                       onPress={submitMyReactionLike}>
                       <Image
@@ -225,7 +243,7 @@ const AnonDetails = () => {
                         resizeMode="contain"
                         style={styles.commentBtnImage}
                       />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     <View style={styles.commentWrapper}>
                       <TextInput
                         style={styles.commentInput}
@@ -262,7 +280,10 @@ const CommentCard = ({ comment }) => {
         <Text style={styles.commentName}>{comment?.comment}</Text>
 
         <Text style={styles.commentComment}>
-          Posted at: {comment?.createdAt.split("T").join(" ")}
+          Posted at:
+          {comment?.createdAt.split("T")[0]}
+          {"   "}
+          {comment?.createdAt.split("T")[1].split(".")[0]}
         </Text>
       </View>
     </View>

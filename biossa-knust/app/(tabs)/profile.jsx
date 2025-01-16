@@ -104,7 +104,7 @@ const Profile = () => {
                     router.replace("auth");
                   });
                 }}
-                color={"#ff0000"}
+                color={"#355e3b"}
                 text={"LogOut"}
               />
             </View>

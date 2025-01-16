@@ -1,15 +1,26 @@
 import { useState } from "react";
 import { Link, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, ScrollView, Alert, Image, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Alert,
+  Image,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { COLORS, images } from "../../constants";
 import styles from "../../styles/globalStyles";
 import { CustomButton } from "../../components";
 import { user_signup } from "../../utils/user_api";
+import Icon from "react-native-vector-icons/Ionicons";
 
 const SignUp = () => {
   const [isSubmitting, setSubmitting] = useState(false);
+  const [viewPassword, setViewPassword] = useState(true);
+  const [viewPassword2, setViewPassword2] = useState(true);
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -143,36 +154,82 @@ const SignUp = () => {
           </View>
 
           <View style={{ marginBottom: 10 }}>
-            <View style={styles.textContainer}>
-              <View style={styles.textWrapper}>
-                <TextInput
-                  inputMode="text"
-                  keyboardType="default"
-                  style={styles.textInput}
-                  value={form.password}
-                  onChangeText={(e) => setForm({ ...form, password: e })}
-                  placeholder="Password"
-                  placeholderTextColor={COLORS.black}
-                  secureTextEntry={true}
-                />
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                marginHorizontal: 15,
+                backgroundColor: COLORS.gray2,
+                borderRadius: 15,
+              }}>
+              <View style={styles.textContainer}>
+                <View style={styles.textWrapper}>
+                  <TextInput
+                    inputMode="text"
+                    keyboardType="default"
+                    style={styles.textInput}
+                    value={form.password}
+                    onChangeText={(e) => setForm({ ...form, password: e })}
+                    placeholder="Password"
+                    placeholderTextColor={COLORS.black}
+                    secureTextEntry={viewPassword}
+                  />
+                </View>
               </View>
+              <TouchableOpacity
+                onPress={() => setViewPassword(!viewPassword)}
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  paddingRight: 10,
+                }}>
+                <Icon
+                  name={viewPassword ? "eye" : "eye-off"}
+                  size={20}
+                  color={COLORS.black}
+                />
+              </TouchableOpacity>
             </View>
           </View>
 
           <View style={{ marginBottom: 10 }}>
-            <View style={styles.textContainer}>
-              <View style={styles.textWrapper}>
-                <TextInput
-                  inputMode="text"
-                  keyboardType="default"
-                  style={styles.textInput}
-                  value={form.confirmpassword}
-                  onChangeText={(e) => setForm({ ...form, confirmpassword: e })}
-                  placeholder="Confirm Password"
-                  placeholderTextColor={COLORS.black}
-                  secureTextEntry={true}
-                />
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                marginHorizontal: 15,
+                backgroundColor: COLORS.gray2,
+                borderRadius: 15,
+              }}>
+              <View style={styles.textContainer}>
+                <View style={styles.textWrapper}>
+                  <TextInput
+                    inputMode="text"
+                    keyboardType="default"
+                    style={styles.textInput}
+                    value={form.confirmpassword}
+                    onChangeText={(e) =>
+                      setForm({ ...form, confirmpassword: e })
+                    }
+                    placeholder="Confirm Password"
+                    placeholderTextColor={COLORS.black}
+                    secureTextEntry={viewPassword2}
+                  />
+                </View>
               </View>
+              <TouchableOpacity
+                onPress={() => setViewPassword2(!viewPassword2)}
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  paddingRight: 10,
+                }}>
+                <Icon
+                  name={viewPassword2 ? "eye" : "eye-off"}
+                  size={20}
+                  color={COLORS.black}
+                />
+              </TouchableOpacity>
             </View>
           </View>
           <CustomButton
@@ -184,8 +241,11 @@ const SignUp = () => {
 
           <View>
             <Text style={styles.welcomemsg}>Already have an account?</Text>
-            <Link style={styles.spaceDown} href="/sign-in">
-              <Text style={styles.welcome}>SignIn</Text>
+            <Link style={styles.welcome} href="/sign-in">
+              <Text
+                style={{ color: "#008000", textDecorationLine: "underline" }}>
+                SignIn
+              </Text>
             </Link>
           </View>
         </View>

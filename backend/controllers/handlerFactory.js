@@ -92,16 +92,15 @@ exports.getOne = (Model, popOptions) =>
 
 exports.getAll = (Model, popOptions) =>
   catchAsync(async (req, res, next) => {
-    // To allow for nested GET reviews on scripture (hack)
+    // To allow for nested GET reviews on message (hack)
     let filter = {};
-    if (req.params.scriptureId) filter = { scripture: req.params.scriptureId };
+    if (req.params.messageId) filter = { message: req.params.messageId };
 
     const features = new APIFeatures(Model.find(filter), req.query)
       .filter()
       .sort()
       .limitFields()
       .pages();
-    // const doc = await features.query.explain();
     let doc;
     if (popOptions) {
       doc = await features.query.populate(popOptions);

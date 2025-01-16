@@ -17,6 +17,8 @@ import {
 import { COLORS, SIZES } from "../../constants";
 import styles from "../../styles/globalStyles";
 import { ErrorView } from "../../components";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 const link = "https://biossaknust.onrender.com";
 
@@ -27,14 +29,14 @@ const AnonChats = () => {
   const [status, setStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
-  const options = {
-    method: "GET",
-    url: `${link}/api/v1/mainanons/`,
-  };
 
   const fetchData = async () => {
     setIsLoading(true);
 
+    const options = {
+      method: "GET",
+      url: `${link}/api/v1/mainanons/`,
+    };
     try {
       const response = await axios.request(options);
       setData(response.data.data.data);
@@ -69,7 +71,7 @@ const AnonChats = () => {
   );
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, marginTop: 20 }}>
       <View>
         <View style={styles.searchcontainer}>
           <View>
@@ -81,7 +83,7 @@ const AnonChats = () => {
             <View style={styles.searchsearchWrapper}>
               <TextInput
                 style={styles.searchsearchInput}
-                placeholder="Search Scriptures"
+                placeholder="Search Messages"
                 placeholderTextColor={COLORS.black}
                 value={searchQuery}
                 onChangeText={(text) => setSearchQuery(text)}
@@ -92,24 +94,23 @@ const AnonChats = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.homecontainer}>
             <View style={styles.homeheader}>
-              <Text style={styles.homeheaderTitle}>All Messages</Text>
               <TouchableOpacity
                 onPress={() => {
                   onRefresh();
                 }}>
-                <Text style={styles.homeheaderBtn}>Refresh</Text>
+                <Icon name={"undo"} size={20} color={"#355e3b"} />
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
                   setSearchQuery("");
                 }}>
-                <Text style={styles.homeheaderBtn}>Show All</Text>
+                <Icon name={"comments"} size={20} color={"#355e3b"} />
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
                   router.push("/createanon/main");
                 }}>
-                <Text style={styles.homeheaderTitle}>Add New</Text>
+                <Icon name={"plus-square"} size={20} color={"#355e3b"} />
               </TouchableOpacity>
             </View>
 
@@ -120,7 +121,7 @@ const AnonChats = () => {
                 ((<ErrorView msg={"Something went wrong. Please try again"} />),
                 Alert.alert("Something went wrong.", error.message))
               ) : data.length === 0 || data == null ? (
-                <ErrorView msg={"No Data!!!"} />
+                <ErrorView msg={"No Messages!!!"} />
               ) : (
                 <FlatList
                   data={filteredData}
@@ -151,13 +152,33 @@ const MainAnonCard = React.memo(({ mainanon, handleNavigate }) => {
     <TouchableOpacity style={styles.container} onPress={() => handleNavigate()}>
       <View style={styles.textContainer}>
         <Text style={styles.anonName}>{mainanon?.message}</Text>
-        <Text style={styles.anonComment}>
-          Comments: {mainanon.comments.length}
-        </Text>
-        <Text style={styles.anonLike}>Likes: {mainanon.reactions.length}</Text>{" "}
-        <Text style={styles.commentComment}>
-          Posted at: {mainanon?.createdAt.split("T").join(" ")}
-        </Text>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            marginTop: 10,
+          }}>
+          <Text style={styles.anonComment}>
+            {mainanon.comments.length} Comments
+          </Text>
+          <View style={{ paddingRight: 15 }} />
+
+          <Icon name={"heart"} size={20} color={"#355e3b"} />
+          <View style={{ paddingRight: 2 }} />
+          <Text style={styles.anonLike}>{mainanon.reactions.length} Likes</Text>
+          <View style={{ paddingRight: 15 }} />
+          <Text
+            style={{
+              alignContent: "end",
+              alignSelf: "flex-end",
+              fontSize: 10,
+            }}>
+            Posted at:
+            {mainanon?.createdAt.split("T")[0]}
+            {"   "}
+            {mainanon?.createdAt.split("T")[1].split(".")[0]}
+          </Text>
+        </View>
       </View>
     </TouchableOpacity>
   );

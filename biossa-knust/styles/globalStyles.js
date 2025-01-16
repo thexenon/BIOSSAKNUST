@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
+    paddingVertical: 10,
   },
   btnBtn: (bgColor) => ({
     height: 50,
@@ -75,6 +76,7 @@ const styles = StyleSheet.create({
     backgroundColor: bgColor,
   }),
   btnText: {
+    paddingTop: 15,
     fontSize: SIZES.medium,
     color: COLORS.white,
     fontFamily: FONT.bold,
@@ -94,7 +96,6 @@ const styles = StyleSheet.create({
   },
   textWrapper: {
     backgroundColor: COLORS.gray2,
-    // margin: SIZES.small,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: SIZES.medium,
@@ -140,7 +141,12 @@ const styles = StyleSheet.create({
   // Home Search
   searchcontainer: {
     width: "100%",
-    backgroundColor: COLORS.gray,
+    backgroundColor: "#008000",
+    paddingTop: 15,
+    paddingBottom: 25,
+  },
+  commentsearchcontainer: {
+    width: "100%",
     paddingTop: 15,
     paddingBottom: 25,
   },
@@ -148,7 +154,7 @@ const styles = StyleSheet.create({
   searchwelcomeMessage: {
     fontFamily: FONT.bold,
     fontSize: SIZES.large,
-    color: COLORS.primary,
+    color: COLORS.white,
     marginTop: 20,
     alignSelf: "center",
     textAlign: "center",
@@ -162,17 +168,18 @@ const styles = StyleSheet.create({
     height: 50,
   },
   searchsearchWrapper: {
+    width: "90%",
     flex: 1,
-    backgroundColor: COLORS.white,
     marginRight: SIZES.small,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: SIZES.medium,
     height: "100%",
   },
   searchsearchInput: {
+    backgroundColor: COLORS.white,
     fontFamily: FONT.regular,
-    width: "100%",
+    borderRadius: SIZES.medium,
+    width: "90%",
     height: "100%",
     paddingHorizontal: SIZES.medium,
     color: COLORS.black,
@@ -287,7 +294,7 @@ const styles = StyleSheet.create({
     textTransform: "capitalize",
   },
   anonMessage: {
-    fontSize: SIZES.xLarge,
+    fontSize: SIZES.large,
     fontFamily: "DMBold",
     color: COLORS.primary,
     textAlign: "center",
@@ -300,14 +307,14 @@ const styles = StyleSheet.create({
   anonComment: {
     fontSize: SIZES.small + 2,
     fontFamily: "DMBold",
-    color: "#fff574",
+    color: "#000000",
     marginTop: 3,
     textTransform: "capitalize",
   },
   anonLike: {
     fontSize: SIZES.small + 2,
-    fontFamily: "DMRegular",
-    color: "#fb4141",
+    fontFamily: "DMBold",
+    color: "#355e3b",
     marginTop: 3,
     textTransform: "capitalize",
   },
@@ -337,7 +344,7 @@ const styles = StyleSheet.create({
     color: COLORS.primary,
   },
   commentComment: {
-    fontSize: SIZES.medium,
+    fontSize: 12,
     fontFamily: "DMRegular",
     color: COLORS.black,
     marginTop: 3,

@@ -1,4 +1,3 @@
-// comment / rating / createdAt / ref to scripture / ref to user
 const mongoose = require('mongoose');
 
 const yearCommentSchema = new mongoose.Schema(

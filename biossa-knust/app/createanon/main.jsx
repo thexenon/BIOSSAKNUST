@@ -37,19 +37,12 @@ const CreateMain = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#355e3b" }}>
       <Stack.Screen
         options={{
           headerStyle: { backgroundColor: COLORS.lightWhite },
           headerShadowVisible: false,
-          headerBackVisible: false,
-          headerLeft: () => (
-            <ScreenHeaderBtn
-              iconUrl={icons.left}
-              dimension="60%"
-              handlePress={() => router.back()}
-            />
-          ),
+          headerBackVisible: true,
           headerTitle: `Create new general Anonymous post`,
         }}
       />
@@ -84,7 +77,7 @@ const CreateMain = () => {
                 </View>
               </View>
               <CustomButton
-                color={COLORS.primary}
+                color={"#023020"}
                 text={"Post message"}
                 handlePress={submitMyPost}
               />
