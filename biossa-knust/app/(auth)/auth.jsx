@@ -18,7 +18,7 @@ const Auth = () => {
 
           <Image
             style={{ height: 200, width: 200, alignSelf: "center" }}
-            source={images.logo}
+            source={images.biossa}
             resizeMode="contain"
           />
 

@@ -1,16 +1,13 @@
 import { router } from "expo-router";
-import { View, Text, Image } from "react-native";
+import { View, Text } from "react-native";
 
-import { images, COLORS, SIZES, FONT } from "../constants";
+import { COLORS, SIZES, FONT } from "../constants";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 const ErrorView = ({ msg }) => {
   return (
     <View style={{ alignItems: "center", alignContent: "center" }}>
-      <Image
-        source={images.empty}
-        resizeMode="cover"
-        style={{ height: 300, width: "80%", alignSelf: "center" }}
-      />
+      <Icon name="exclamation-triangle" size={100} color={"#023020"} />
 
       <Text
         style={{

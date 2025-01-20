@@ -7,7 +7,6 @@ import {
   FlatList,
   TouchableOpacity,
   RefreshControl,
-  Image,
   TextInput,
   Alert,
 } from "react-native";
@@ -16,8 +15,8 @@ import { Stack, useRouter } from "expo-router";
 import { useGlobalSearchParams } from "expo-router/build/hooks";
 import { useCallback, useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ScreenHeaderBtn, ErrorView } from "../../components";
-import { COLORS, icons, SIZES } from "../../constants";
+import { ErrorView } from "../../components";
+import { COLORS, SIZES } from "../../constants";
 import styles from "../../styles/globalStyles";
 import { submitComment, submitReactionLike } from "../../utils/user_api";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -68,8 +67,9 @@ const AnonDetails = () => {
 
   const submitMyComment = async () => {
     if (commentText.comment == "") {
-      Alert.alert("Error", "Please fill in a comment");
-    } else {
+      return Alert.alert("Error", "Please fill in a comment");
+    } 
+    
       setSubmitting(true);
       if (isSubmitting) {
         return <ActivityIndicator size="large" color={COLORS.primary} />;
@@ -101,7 +101,7 @@ const AnonDetails = () => {
       } finally {
         setSubmitting(false);
       }
-    }
+    
   };
 
   const submitMyReactionLike = async () => {
@@ -235,15 +235,6 @@ const AnonDetails = () => {
               <View style={{ flexDirection: "row" }}>
                 <View style={styles.commentsearchcontainer}>
                   <View style={styles.commentContainer}>
-                    {/* <TouchableOpacity
-                      style={styles.commentBtnLike}
-                      onPress={submitMyReactionLike}>
-                      <Image
-                        source={icons.heartOutline}
-                        resizeMode="contain"
-                        style={styles.commentBtnImage}
-                      />
-                    </TouchableOpacity> */}
                     <View style={styles.commentWrapper}>
                       <TextInput
                         style={styles.commentInput}
@@ -256,11 +247,7 @@ const AnonDetails = () => {
                     <TouchableOpacity
                       style={styles.commentBtnUpload}
                       onPress={submitMyComment}>
-                      <Image
-                        source={icons.upload}
-                        resizeMode="contain"
-                        style={styles.commentBtnImage}
-                      />
+                      <Icon name={"send"} size={35} color={"#355e3b"} />
                     </TouchableOpacity>
                   </View>
                 </View>

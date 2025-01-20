@@ -57,8 +57,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: 'user',
       enum: {
-        values: ['admin', 'creator', 'user'],
-        message: 'Role is either ||admin|creator|user||',
+        values: ['admin', 'creator', 'student'],
+        message: 'Role is either ||admin|creator|student||',
       },
     },
 
@@ -76,6 +76,9 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    isVerified: { type: Boolean, default: false },
+    verificationToken: String,
+    verificationTokenExpiry: Date,
   },
   {
     toJSON: { virtuals: true },

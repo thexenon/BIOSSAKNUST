@@ -1,6 +1,5 @@
 import optyxenon from "../assets/images/optyxenon.png";
-import path from "../assets/images/path.png";
 import logo from "../assets/images/logo.jpg";
-import empty from "../assets/images/empty.png";
+import biossa from "../assets/images/biossa.png";
 
-export default { optyxenon, path, logo, empty };
+export default { optyxenon, logo, biossa };

@@ -1,10 +1,9 @@
 import { StatusBar } from "expo-status-bar";
 import { Tabs } from "expo-router";
-import { Image, View } from "react-native";
+import { View } from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
-import { icons } from "../../constants";
-
-const TabIcon = ({ icon, color, name, focused }) => {
+const TabIcon = ({ icon, color, focused }) => {
   return (
     <View
       style={{
@@ -13,11 +12,11 @@ const TabIcon = ({ icon, color, name, focused }) => {
         alignSelf: "center",
         textAlign: "center",
       }}>
-      <Image
-        source={icon}
+      <Icon
+        name={icon}
+        size={20}
+        color={focused ? color : "#355e3b"}
         resizeMode="contain"
-        tintColor={color}
-        style={{ height: 30 }}
       />
     </View>
   );
@@ -44,12 +43,7 @@ const TabLayout = () => {
             title: "Home",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
-              <TabIcon
-                icon={icons.home}
-                color={color}
-                name="Home"
-                focused={focused}
-              />
+              <TabIcon icon={"home"} color={color} focused={focused} />
             ),
           }}
         />
@@ -57,15 +51,10 @@ const TabLayout = () => {
         <Tabs.Screen
           name="anonmain"
           options={{
-            title: "Anon Main",
+            title: "Main Anon",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
-              <TabIcon
-                icon={icons.eyeHide}
-                color={color}
-                name="Anon Main"
-                focused={focused}
-              />
+              <TabIcon icon={"eye-slash"} color={color} focused={focused} />
             ),
           }}
         />
@@ -73,15 +62,10 @@ const TabLayout = () => {
         <Tabs.Screen
           name="anonyeargroup"
           options={{
-            title: "Anon TAB",
+            title: "Class Anon",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
-              <TabIcon
-                icon={icons.eyeHide}
-                color={color}
-                name="Anon TAB"
-                focused={focused}
-              />
+              <TabIcon icon={"eye-slash"} color={color} focused={focused} />
             ),
           }}
         />
@@ -92,12 +76,7 @@ const TabLayout = () => {
             title: "Slides",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
-              <TabIcon
-                icon={icons.boxes}
-                color={color}
-                name="Slides"
-                focused={focused}
-              />
+              <TabIcon icon={"book"} color={color} focused={focused} />
             ),
           }}
         />
@@ -108,12 +87,7 @@ const TabLayout = () => {
             title: "Profile",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
-              <TabIcon
-                icon={icons.profile}
-                color={color}
-                name="Profile"
-                focused={focused}
-              />
+              <TabIcon icon={"address-card"} color={color} focused={focused} />
             ),
           }}
         />

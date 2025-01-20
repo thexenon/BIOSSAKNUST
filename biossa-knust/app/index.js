@@ -41,22 +41,15 @@ const Splash = () => {
           <Text style={styles.churchName}>BIOSSA - KNUST</Text>
 
           <Image
-            style={{ height: 300, width: "100%", alignSelf: "center" }}
-            source={images.logo}
-            resizeMode="contain"
-          />
-
-          <Text style={styles.welcome}>Powered by</Text>
-
-          <Image
-            style={{ height: 150, width: "100%", alignSelf: "center" }}
-            source={images.optyxenon}
+            style={{ height: 400, width: "100%", alignSelf: "center" }}
+            source={images.biossa}
             resizeMode="contain"
           />
 
           <Text style={styles.welcomemsg}>
-            We are glad that you are joining us
+            Welcome to a family worth belonging to...
           </Text>
+          <Text style={styles.welcomemsg}>BIOSSA - Life</Text>
         </View>
       </ScrollView>
     </SafeAreaView>

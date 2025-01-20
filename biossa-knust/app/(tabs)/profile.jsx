@@ -15,7 +15,7 @@ import { Link, useRouter, Stack } from "expo-router";
 import { useState, useEffect } from "react";
 
 import { CustomButton, ErrorView } from "../../components";
-import { COLORS, SIZES } from "../../constants";
+import { COLORS, SIZES, images, FONT } from "../../constants";
 import styles from "../../styles/globalStyles";
 
 const link = "https://biossaknust.onrender.com";
@@ -62,22 +62,22 @@ const Profile = () => {
   return (
     <SafeAreaView style={styles.safeSpace}>
       <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
-        <View
-          style={{ alignItems: "center", justifyContent: "center", top: 30 }}>
-          <Text
-            style={{
-              fontSize: SIZES.xxLarge,
-              fontFamily: "DMBold",
-              color: COLORS.primary,
-            }}>
-            My Account Details
-          </Text>
-        </View>
         <ScrollView
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={refetch} />
           }>
+          <View
+            style={{ alignItems: "center", justifyContent: "center", top: 30 }}>
+            <Text
+              style={{
+                fontSize: SIZES.xxLarge,
+                fontFamily: "DMBold",
+                color: COLORS.primary,
+              }}>
+              My Account Details
+            </Text>
+          </View>
           {isLoading ? (
             <ActivityIndicator size="large" color={COLORS.primary} />
           ) : error ? (
@@ -109,6 +109,55 @@ const Profile = () => {
               />
             </View>
           )}
+          <View style={{ backgroundColor: "#000", height: "10" }}></View>
+          <View style={{ padding: 10 }}>
+            <Text
+              style={{
+                color: "#000",
+                alignSelf: "center",
+                alignItems: "center",
+                textAlign: "center",
+                fontSize: SIZES.xLarge,
+                fontFamily: FONT.bold,
+                marginBottom: 20,
+                marginTop: 25,
+              }}>
+              Powered by
+            </Text>
+
+            <Image
+              style={{
+                height: 200,
+                width: "100%",
+                alignSelf: "center",
+                marginVertical: 10,
+              }}
+              source={images.optyxenon}
+              resizeMode="contain"
+            />
+
+            <UserCard
+              fullname={"Derek Donkor (Xenon)"}
+              email={"donkorderek@gmail.com"}
+              skill={"Back-End Developer"}
+              phone={"+233556585028"}
+            />
+
+            <UserCard
+              fullname={"Optimus"}
+              email={"optimustryumph1@gmail.com"}
+              skill={
+                "Front-End Developer || Graphic Designer || Project Manager"
+              }
+            />
+
+            <UserCard
+              fullname={"Bright Kumedzro (BK Designs"}
+              phone={"+233248765886"}
+              email={"kumedzrobright@gmail.com"}
+              skill={"Front-End Developer || UI/UX"}
+            />
+          </View>
         </ScrollView>
       </SafeAreaView>
     </SafeAreaView>
@@ -139,9 +188,26 @@ const UserProfile = ({ currentuser }) => {
         <Text style={styles.userBody}>{currentuser?.year}</Text>
       </View>
       <View>
+        <Text style={styles.userName}>Verification</Text>
+        <Text style={styles.userBody}>
+          {currentuser?.isVerifed ? "Verified🥰" : "Not Verified😞"}
+        </Text>
+      </View>
+      <View>
         <Text style={styles.userName}>About</Text>
         <Text style={styles.userBody}>{currentuser?.description}</Text>
       </View>
+    </View>
+  );
+};
+
+const UserCard = ({ fullname, phone, email, skill }) => {
+  return (
+    <View style={{ padding: 20, backgroundColor: COLORS.lightWhite }}>
+      <Text style={styles.userName}>{fullname}</Text>
+      <Text style={styles.userBody}>{skill}</Text>
+      <Text style={styles.userBody}>{email}</Text>
+      <Text style={styles.userBody}>{phone}</Text>
     </View>
   );
 };

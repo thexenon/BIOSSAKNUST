@@ -50,21 +50,60 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError('Incorrect email or password', 401));
   }
   // 3) Check if is okay, send token to client
+  // if (!user.isVerified) {
+  //   return next(new AppError('Please verify your email to continue...', 401));
+  // }
+
   createSendToken(user, 200, res);
 });
 
 exports.signup = catchAsync(async (req, res, next) => {
-  const newUser = await User.create(req.body);
-  //   const newUser = await User.create({
-  //     name: req.body.name,
-  //     email: req.body.email,
-  //     password: req.body.password,
-  //     passwordConfirm: req.body.passwordConfirm
-  //   });
-
-  // const url = `${req.protocol}://${req.get('host')}/me`;
-  // await new Email(newUser, url).sendWelcome();
+  // const newUser = await User.create(req.body);
+  // Generate a verification token
+  const verificationToken = crypto.randomBytes(32).toString('hex');
+  const verificationTokenExpiry = Date.now() + 86400000;
+  const newUser = await User.create({
+    name: req.body.name,
+    phone: req.body.phone,
+    year: req.body.year,
+    email: req.body.email,
+    password: req.body.password,
+    passwordConfirm: req.body.passwordConfirm,
+    verificationToken,
+    verificationTokenExpiry,
+  });
+  const url = `${req.protocol}://${req.get('host')}/api/v1/users/verify-email?token=${verificationToken}`;
+  await new Email(newUser, url).sendWelcome();
   createSendToken(newUser, 201, res);
+});
+
+exports.verifyme = catchAsync(async (req, res, next) => {
+  const { token } = req.query;
+
+  // Find user by verification token
+  // const user = await User.findOne({ verificationToken: token });
+  const user = await User.findOne({ verificationToken: token });
+
+  if (!user) {
+    return res.status(400).send('Invalid verification token.');
+  }
+
+  // Check if the token is expired
+  if (Date.now() > user.verificationTokenExpiry) {
+    return res.status(400).send('Verification token has expired.');
+  }
+
+  // Mark user as verified
+  user.isVerified = true;
+  user.verificationToken = null; // Remove token after successful verification
+  user.verificationTokenExpiry = null;
+  await user.save({ validateBeforeSave: false });
+  const url = `${req.protocol}://${req.get('host')}/me`;
+  await new Email(user, url).sendVerified();
+  res.status(200).json({
+    status: 'success',
+    message: 'Email verified!',
+  });
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
@@ -109,7 +148,6 @@ exports.protect = catchAsync(async (req, res, next) => {
 
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
-    // roles ['admin', 'lead-guide']. role='user'
     if (!roles.includes(req.user.role)) {
       return next(
         new AppError('You do not have permission to perform this action', 403),
@@ -140,11 +178,11 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   // const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
 
   try {
-    // await sendEmail({
-    //   email: user.email,
-    //   subject: 'Your password reset token (valid for 10 min)',
-    //   message
-    // });
+    await sendEmail({
+      email: user.email,
+      subject: 'Your password reset token (valid for 10 min)',
+      message,
+    });
 
     const resetURL = `${req.protocol}://${req.get(
       'host',

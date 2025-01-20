@@ -7,7 +7,6 @@ import {
   FlatList,
   TouchableOpacity,
   RefreshControl,
-  Image,
   TextInput,
   Alert,
 } from "react-native";
@@ -16,8 +15,8 @@ import { Stack, useRouter } from "expo-router";
 import { useGlobalSearchParams } from "expo-router/build/hooks";
 import { useCallback, useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ScreenHeaderBtn, ErrorView } from "../../components";
-import { COLORS, icons, SIZES } from "../../constants";
+import { ErrorView } from "../../components";
+import { COLORS, SIZES } from "../../constants";
 import styles from "../../styles/globalStyles";
 import { submitComment, submitReactionLike } from "../../utils/user_api";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -68,39 +67,36 @@ const AnonDetails = () => {
 
   const submitMyComment = async () => {
     if (commentText.comment == "") {
-      Alert.alert("Error", "Please fill in a comment");
-    } else {
-      setSubmitting(true);
-      if (isSubmitting) {
-        return <ActivityIndicator size="large" color={COLORS.primary} />;
-      }
+      return Alert.alert("Error", "Please fill in a comment");
+    }
 
-      try {
-        await submitComment(
-          { comment: commentText.comment },
-          `mainanons/${params.id}`
-        )
-          .then((result) => {
-            if (result.status == "201") {
-              setCommentText({ comment: "" });
-              fetchData();
-            } else if (result.status == "fail") {
-              Alert.alert(
-                `${result.status.toUpperCase()}`,
-                `${result.message}`
-              );
-            } else {
-              Alert.alert("Somethin went wrong. Please try again later");
-            }
-          })
-          .catch((err) => {
-            Alert.alert("Error", err);
-          });
-      } catch (error) {
-        Alert.alert("Error", error.message);
-      } finally {
-        setSubmitting(false);
-      }
+    setSubmitting(true);
+    if (isSubmitting) {
+      return <ActivityIndicator size="large" color={COLORS.primary} />;
+    }
+
+    try {
+      await submitComment(
+        { comment: commentText.comment },
+        `mainanons/${params.id}`
+      )
+        .then((result) => {
+          if (result.status == "201") {
+            setCommentText({ comment: "" });
+            fetchData();
+          } else if (result.status == "fail") {
+            Alert.alert(`${result.status.toUpperCase()}`, `${result.message}`);
+          } else {
+            Alert.alert("Somethin went wrong. Please try again later");
+          }
+        })
+        .catch((err) => {
+          Alert.alert("Error", err);
+        });
+    } catch (error) {
+      Alert.alert("Error", error.message);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -235,15 +231,6 @@ const AnonDetails = () => {
               <View style={{ flexDirection: "row" }}>
                 <View style={styles.commentsearchcontainer}>
                   <View style={styles.commentContainer}>
-                    {/* <TouchableOpacity
-                      style={styles.commentBtnLike}
-                      onPress={submitMyReactionLike}>
-                      <Image
-                        source={icons.heartOutline}
-                        resizeMode="contain"
-                        style={styles.commentBtnImage}
-                      />
-                    </TouchableOpacity> */}
                     <View style={styles.commentWrapper}>
                       <TextInput
                         style={styles.commentInput}
@@ -256,11 +243,7 @@ const AnonDetails = () => {
                     <TouchableOpacity
                       style={styles.commentBtnUpload}
                       onPress={submitMyComment}>
-                      <Image
-                        source={icons.upload}
-                        resizeMode="contain"
-                        style={styles.commentBtnImage}
-                      />
+                      <Icon name={"send"} size={35} color={"#355e3b"} />
                     </TouchableOpacity>
                   </View>
                 </View>

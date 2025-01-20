@@ -78,7 +78,7 @@ const AnonChats = () => {
         <View style={styles.searchcontainer}>
           <View>
             <Text style={styles.searchwelcomeMessage}>
-              This is Level {year} Anonymous Page
+              Level {year} Anonymous Page
             </Text>
           </View>
           <View style={styles.searchsearchContainer}>

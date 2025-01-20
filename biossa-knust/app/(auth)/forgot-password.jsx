@@ -1,10 +1,19 @@
 import { useState } from "react";
 import { router, Stack } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, ScrollView, Alert, Image, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Alert,
+  Image,
+  TextInput,
+  ActivityIndicator,
+} from "react-native";
 
-import { COLORS, icons, images } from "../../constants";
-import { CustomButton, ScreenHeaderBtn } from "../../components";
+import { COLORS, images } from "../../constants";
+import { CustomButton } from "../../components";
+import { forgotPass } from "../../utils/user_api";
 import styles from "../../styles/globalStyles";
 
 const SignIn = () => {
@@ -14,36 +23,46 @@ const SignIn = () => {
     password: "",
   });
 
-  // const submit = async () => {
-  //   if (form.email === "" || form.password === "") {
-  //     Alert.alert("Error", "Please fill in all fields");
-  //   }
+  const submit = async () => {
+    if (form.email === "") {
+      return Alert.alert("Error", "Please fill in your email");
+    }
 
-  //   setSubmitting(true);
-
-  //   try {
-  //     Alert.alert("Success", "User signed in successfully");
-  //     router.replace("/home");
-  //   } catch (error) {
-  //     Alert.alert("Error", error.message);
-  //   } finally {
-  //     setSubmitting(false);
-  //   }
-  // };
+    setSubmitting(true);
+    try {
+      forgotPass({ email: form.email })
+        .then(async (result) => {
+          if (result.status == "200") {
+            Alert.alert(
+              "Email Sent!",
+              `Check your mail for the Forget Password email to change your password`
+            );
+            router.push("/auth");
+          } else if (result.status == "fail") {
+            Alert.alert(`${result.status.toUpperCase()}`, `${result.message}`);
+            setSubmitting(false);
+          } else {
+            Alert.alert("Somethin went wrong. Please try again later");
+            setSubmitting(false);
+          }
+        })
+        .catch((err) => {
+          Alert.alert("Error", err);
+          setSubmitting(false);
+        });
+    } catch (error) {
+      Alert.alert("Error", error.message);
+      setSubmitting(false);
+    }
+  };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.gray }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       <Stack.Screen
         options={{
           headerStyle: { backgroundColor: COLORS.lightWhite },
           headerShadowVisible: false,
-          headerLeft: () => (
-            <ScreenHeaderBtn
-              iconUrl={icons.left}
-              handlePress={() => router.back()}
-              dimension="50%"
-            />
-          ),
+          headerBackVisible: true,
           headerTitle: "Forgot Password",
         }}
       />
@@ -56,32 +75,40 @@ const SignIn = () => {
               alignSelf: "center",
               marginTop: 40,
             }}
-            source={images.logo}
+            source={images.biossa}
             resizeMode="contain"
           />
 
-          <Text style={styles.welcome}>Forgot Password</Text>
+          <Text style={styles.welcome}>Forget Password</Text>
 
-          <View style={styles.textContainer}>
-            <View style={styles.textWrapper}>
-              <TextInput
-                inputMode="email"
-                keyboardType="default"
-                style={styles.textInput}
-                value={form.email}
-                onChangeText={(e) => setForm({ ...form, email: e })}
-                placeholder="Email"
-                placeholderTextColor={COLORS.black}
-              />
-            </View>
+          <View>
+            {isSubmitting ? (
+              <ActivityIndicator size="60" color={COLORS.primary} />
+            ) : (
+              <View>
+                <View style={styles.textContainer}>
+                  <View style={styles.textWrapper}>
+                    <TextInput
+                      inputMode="email"
+                      keyboardType="default"
+                      style={styles.textInput}
+                      value={form.email}
+                      onChangeText={(e) => setForm({ ...form, email: e })}
+                      placeholder="Email"
+                      placeholderTextColor={COLORS.black}
+                    />
+                  </View>
+                </View>
+
+                <CustomButton
+                  color={"#008000"}
+                  text="Forget Password"
+                  handlePress={submit}
+                  isLoading={isSubmitting}
+                />
+              </View>
+            )}
           </View>
-
-          {/* <CustomButton
-            color={"#213555"}
-            text="Forget Password"
-            handlePress={submit}
-            isLoading={isSubmitting}
-          /> */}
         </View>
       </ScrollView>
     </SafeAreaView>

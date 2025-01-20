@@ -17,7 +17,6 @@ import {
 import { COLORS, SIZES } from "../../constants";
 import styles from "../../styles/globalStyles";
 import { ErrorView } from "../../components";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 const link = "https://biossaknust.onrender.com";
@@ -76,7 +75,7 @@ const AnonChats = () => {
         <View style={styles.searchcontainer}>
           <View>
             <Text style={styles.searchwelcomeMessage}>
-              This is General BIOSSA Anonymous Page
+              General BIOSSA Anonymous Page
             </Text>
           </View>
           <View style={styles.searchsearchContainer}>

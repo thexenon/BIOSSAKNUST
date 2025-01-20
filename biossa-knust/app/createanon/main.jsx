@@ -2,7 +2,7 @@ import { View, SafeAreaView, ScrollView, TextInput, Alert } from "react-native";
 import { Stack, useRouter } from "expo-router";
 import { useState } from "react";
 import { ScreenHeaderBtn, CustomButton } from "../../components";
-import { COLORS, icons, SIZES } from "../../constants";
+import { COLORS, SIZES } from "../../constants";
 import { submitPost } from "../../utils/user_api";
 
 const CreateMain = () => {
@@ -11,7 +11,7 @@ const CreateMain = () => {
 
   const submitMyPost = async () => {
     if (messageText.message == "") {
-      Alert.alert("Error", "Please fill in a message");
+      return Alert.alert("Error", "Please fill in a message");
     }
 
     try {

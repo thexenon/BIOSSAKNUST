@@ -14,6 +14,20 @@ export const user_login = async (reqData) => {
     return error.response.data;
   }
 };
+export const forgotPass = async (reqData) => {
+  try {
+    const result = await ApiManager("/api/v1/users/forgotPassword", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: reqData,
+    });
+    return result;
+  } catch (error) {
+    return error.response.data;
+  }
+};
 
 export const user_signup = async (reqData) => {
   try {
