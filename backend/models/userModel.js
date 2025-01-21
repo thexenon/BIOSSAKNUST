@@ -55,7 +55,7 @@ const userSchema = new mongoose.Schema(
     passwordResetExpires: Date,
     role: {
       type: String,
-      default: 'user',
+      default: 'student',
       enum: {
         values: ['admin', 'creator', 'student'],
         message: 'Role is either ||admin|creator|student||',
