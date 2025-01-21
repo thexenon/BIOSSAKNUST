@@ -23,6 +23,7 @@ const link = "https://biossaknust.onrender.com";
 const Profile = () => {
   const router = useRouter();
 
+  const appUpdate = AsyncStorage.getItem("appUpdate");
   const [data, setData] = useState([]);
   const [status, setStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -107,6 +108,24 @@ const Profile = () => {
                 color={"#355e3b"}
                 text={"LogOut"}
               />
+              {appUpdate ? (
+                <Link
+                  href={
+                    "https://drive.google.com/drive/folders/1vDugpS7NU4O5Yfz9dnatBSRLAtmnh5bI"
+                  }
+                  style={{
+                    backgroundColor: "#ff0000",
+                    alignSelf: "center",
+                    borderRadius: 30,
+                    width: "85%",
+                    paddingVertical: 20,
+                    marginVertical: 20,
+                  }}>
+                  <Text style={styles.btnLinkText}>App Update Available</Text>
+                </Link>
+              ) : (
+                <View></View>
+              )}
             </View>
           )}
           <View style={{ backgroundColor: "#000", height: "10" }}></View>

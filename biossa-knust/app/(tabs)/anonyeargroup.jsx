@@ -73,7 +73,8 @@ const AnonChats = () => {
   );
 
   return (
-    <SafeAreaView style={{ flex: 1, marginTop: 20 }}>
+    <SafeAreaView
+      style={{ flex: 1, marginTop: 20, marginBottom: 30, paddingBottom: 30 }}>
       <View>
         <View style={styles.searchcontainer}>
           <View>
@@ -93,7 +94,9 @@ const AnonChats = () => {
             </View>
           </View>
         </View>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ marginBottom: 120 }}>
           <View style={styles.homecontainer}>
             <View style={styles.homeheader}>
               <TouchableOpacity

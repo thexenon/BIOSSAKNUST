@@ -5,6 +5,7 @@ import {
   ScrollView,
   ActivityIndicator,
   BackHandler,
+  Dimensions,
 } from "react-native";
 import { WebView } from "react-native-webview";
 import styles from "../../styles/globalStyles";
@@ -52,7 +53,7 @@ const Home = () => {
               uri: "https://www.biossaknust.com",
             }}
             ref={webViewRef}
-            style={{ height: 830 }}
+            style={{ minHeight: Dimensions.get("window").height - 100 }}
           />
         </View>
       </ScrollView>
