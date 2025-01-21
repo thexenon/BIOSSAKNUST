@@ -23,7 +23,10 @@ const link = "https://biossaknust.onrender.com";
 const Profile = () => {
   const router = useRouter();
 
-  const appUpdate = AsyncStorage.getItem("appUpdate");
+  // const appUpdate = AsyncStorage.getItem("appUpdate");
+  // console.log("====================================");
+  // console.log(appUpdate);
+  // console.log("====================================");
   const [data, setData] = useState([]);
   const [status, setStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -108,7 +111,7 @@ const Profile = () => {
                 color={"#355e3b"}
                 text={"LogOut"}
               />
-              {appUpdate ? (
+              {/* {appUpdate ? (
                 <Link
                   href={
                     "https://drive.google.com/drive/folders/1vDugpS7NU4O5Yfz9dnatBSRLAtmnh5bI"
@@ -125,7 +128,7 @@ const Profile = () => {
                 </Link>
               ) : (
                 <View></View>
-              )}
+              )} */}
             </View>
           )}
           <View style={{ backgroundColor: "#000", height: "10" }}></View>
@@ -209,7 +212,9 @@ const UserProfile = ({ currentuser }) => {
       <View>
         <Text style={styles.userName}>Verification</Text>
         <Text style={styles.userBody}>
-          {currentuser?.isVerifed ? "Verified🥰" : "Not Verified😞"}
+          {currentuser?.isVerifed
+            ? "Email Verified ✅"
+            : "Email Not Verified ❌"}
         </Text>
       </View>
       <View>
