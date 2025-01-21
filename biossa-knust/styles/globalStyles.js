@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     textAlign: "center",
     marginBottom: 10,
-    marginTop: 25,
+    marginTop: 5,
   },
   //   Buttons
   likeBtn: {

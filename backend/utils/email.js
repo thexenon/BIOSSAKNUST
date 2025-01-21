@@ -16,8 +16,8 @@ module.exports = class Email {
       host: 'smtp.gmail.com',
       port: 465,
       auth: {
-        user: 'donkorderek@gmail.com',
-        pass: 'tkkgmnwiwosbptqt',
+        user: 'biossaknust31@gmail.com',
+        pass: 'bhizomabhbfetaqi',
       },
     });
   }

@@ -95,8 +95,8 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
 });
 
 // Global User Controls
-exports.getAllUsers = factory.getAll(User, { path: 'update' });
-exports.getSingleUser = factory.getOne(User, { path: 'update' });
+exports.getAllUsers = factory.getAll(User);
+exports.getSingleUser = factory.getOne(User);
 exports.updateUser = factory.updateOne(User);
 exports.deleteUser = factory.deleteOne(User);
 
