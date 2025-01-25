@@ -20,12 +20,21 @@ const mainCommentSchema = new mongoose.Schema(
       ref: 'User',
       required: [true, 'Comment must belong to a user'],
     },
+    active: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   },
 );
+
+mainCommentSchema.pre(/^find/, function (next) {
+  this.find({ active: { $ne: false } });
+  next();
+});
 
 mainCommentSchema.pre(/^find/, function (next) {
   this.populate({

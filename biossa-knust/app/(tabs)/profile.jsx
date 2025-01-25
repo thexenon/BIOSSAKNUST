@@ -111,6 +111,33 @@ const Profile = () => {
                 color={"#355e3b"}
                 text={"LogOut"}
               />
+              {data?.role === "admin" ? (
+                <CustomButton
+                  color={COLORS.tertiary}
+                  text={"Go to Admins Page"}
+                  handlePress={() => {
+                    router.push("/adminyear");
+                  }}
+                />
+              ) : data?.role === "creator" ? (
+                <CustomButton
+                  color={COLORS.tertiary}
+                  text={"Go to Creator Page"}
+                  handlePress={() => {
+                    router.push("/creatormain");
+                  }}
+                />
+              ) : data?.role === "superadmin" ? (
+                <CustomButton
+                  color={COLORS.tertiary}
+                  text={"Welcome Xenon"}
+                  handlePress={() => {
+                    router.push("/headmain");
+                  }}
+                />
+              ) : (
+                <View></View>
+              )}
               {/* {appUpdate ? (
                 <Link
                   href={
@@ -192,6 +219,13 @@ const UserProfile = ({ currentuser }) => {
       <View>
         <Text style={styles.userName}></Text>
         <Text style={styles.userBody}></Text>
+      </View>
+      <View>
+        <Text style={styles.userName}>Role</Text>
+        <Text style={styles.userBody}>
+          {" "}
+          Level {currentuser?.year} {currentuser?.role.toUpperCase()}
+        </Text>
       </View>
       <View>
         <Text style={styles.userName}>Name</Text>

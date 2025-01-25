@@ -1,4 +1,4 @@
-const MainAnon = require('./../models/mainAnonModel');
+const MainAnon = require('../models/mainAnonModel');
 const factory = require('./handlerFactory');
 
 exports.setUserIds = (req, res, next) => {

@@ -19,11 +19,13 @@ router
   .route('/:id')
   .get(mainCommentController.getMainComment)
   .patch(
-    authController.restrictTo('creator', 'admin'),
+    authController.protect,
+    authController.restrictTo('creator', 'admin', 'superadmin'),
     mainCommentController.updateMainComment,
   )
   .delete(
-    authController.restrictTo('creator', 'admin'),
+    authController.protect,
+    authController.restrictTo('creator', 'admin', 'superadmin'),
     mainCommentController.deleteMainComment,
   );
 

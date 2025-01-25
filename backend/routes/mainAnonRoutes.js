@@ -26,7 +26,7 @@ router
   .patch(authController.protect, mainAnonController.updateMainAnon)
   .delete(
     authController.protect,
-    authController.restrictTo('creator', 'admin'),
+    authController.restrictTo('creator', 'admin', 'superadmin'),
     mainAnonController.deleteMainAnon,
   );
 

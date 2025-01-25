@@ -10,7 +10,7 @@ const Splash = () => {
   useEffect(() => {
     setTimeout(() => {
       isUserLoggedIn();
-    }, 10000);
+    }, 5000);
   });
 
   const isUserLoggedIn = async () => {
@@ -18,7 +18,7 @@ const Splash = () => {
     if (!token) {
       router.replace("/auth");
     } else {
-      router.replace("/home");
+      router.replace("/adminyear");
     }
   };
 

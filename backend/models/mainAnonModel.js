@@ -15,6 +15,10 @@ const mainAnonSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    active: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     toJSON: { virtuals: true },
@@ -26,6 +30,11 @@ mainAnonSchema.virtual('comments', {
   ref: 'MainComment',
   foreignField: 'mainmessage',
   localField: '_id',
+});
+
+mainAnonSchema.pre(/^find/, function (next) {
+  this.find({ active: { $ne: false } });
+  next();
 });
 
 const MainAnon = mongoose.model('MainAnon', mainAnonSchema);

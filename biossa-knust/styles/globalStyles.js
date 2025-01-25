@@ -265,18 +265,21 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     backgroundColor: COLORS.gray2,
   },
-  logoContainer: {
-    width: 120,
-    height: 150,
-    backgroundColor: COLORS.white,
-    borderRadius: SIZES.medium,
-    justifyContent: "center",
+  delcontainer: {
+    justifyContent: "space-between",
     alignItems: "center",
+    flexDirection: "row",
+    padding: SIZES.medium,
+    borderRadius: SIZES.small,
+    backgroundColor: "#FFF",
+    ...SHADOWS.medium,
+    shadowColor: COLORS.white,
+    width: "85%",
+    paddingVertical: 10,
+    marginVertical: 10,
+    backgroundColor: COLORS.gray2,
   },
-  logoImage: {
-    width: "100%",
-    height: "100%",
-  },
+
   textContainer: {
     flex: 1,
     marginHorizontal: SIZES.medium,

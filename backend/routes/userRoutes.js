@@ -20,7 +20,7 @@ router.get('/me', userController.getMe, userController.getSingleUser);
 router.patch('/updateMe', userController.updateMe);
 router.delete('/deleteMe', userController.deleteMe);
 
-router.use(authController.restrictTo('creator', 'admin'));
+router.use(authController.restrictTo('creator', 'superadmin'));
 
 // Global Routes
 router

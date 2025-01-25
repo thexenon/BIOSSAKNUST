@@ -57,8 +57,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: 'student',
       enum: {
-        values: ['admin', 'creator', 'student'],
-        message: 'Role is either ||admin|creator|student||',
+        values: ['admin', 'creator', 'student', 'superadmin'],
+        message: 'Role is either ||admin|creator|superadmin|student||',
       },
     },
 

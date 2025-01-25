@@ -19,11 +19,13 @@ router
   .route('/:id')
   .get(yearCommentController.getYearComment)
   .patch(
-    authController.restrictTo('creator', 'admin'),
+    authController.protect,
+    authController.restrictTo('creator', 'admin', 'superadmin'),
     yearCommentController.updateYearComment,
   )
   .delete(
-    authController.restrictTo('creator', 'admin'),
+    authController.protect,
+    authController.restrictTo('creator', 'admin', 'superadmin'),
     yearCommentController.deleteYearComment,
   );
 

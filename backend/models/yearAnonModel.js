@@ -17,6 +17,10 @@ const yearAnonSchema = new mongoose.Schema(
         message: 'Level is either ||100|200|300|400||',
       },
     },
+    active: {
+      type: Boolean,
+      default: true,
+    },
     sender: { type: mongoose.Schema.ObjectId, ref: 'User' },
     reactions: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
     createdAt: {
@@ -29,6 +33,11 @@ const yearAnonSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   },
 );
+
+yearAnonSchema.pre(/^find/, function (next) {
+  this.find({ active: { $ne: false } });
+  next();
+});
 
 yearAnonSchema.virtual('comments', {
   ref: 'YearComment',

@@ -38,6 +38,7 @@ const SignIn = () => {
             await AsyncStorage.setItem("jwt", result?.data.token);
             await AsyncStorage.setItem("userUID", result?.data.data.user.id);
             await AsyncStorage.setItem("year", result?.data.data.user.year);
+            await AsyncStorage.setItem("role", result?.data.data.user.role);
             Alert.alert("Welcome", `${result?.data.data.user.name}`);
             router.replace("/home");
           } else if (result.status == "fail") {

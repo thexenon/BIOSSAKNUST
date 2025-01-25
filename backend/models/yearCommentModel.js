@@ -20,12 +20,21 @@ const yearCommentSchema = new mongoose.Schema(
       ref: 'User',
       required: [true, 'Comment must belong to a user'],
     },
+    active: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   },
 );
+
+yearCommentSchema.pre(/^find/, function (next) {
+  this.find({ active: { $ne: false } });
+  next();
+});
 
 yearCommentSchema.pre(/^find/, function (next) {
   this.populate({
