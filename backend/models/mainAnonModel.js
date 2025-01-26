@@ -15,6 +15,10 @@ const mainAnonSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    color: {
+      type: String,
+      required: [true, 'Select a color from the list'],
+    },
     active: {
       type: Boolean,
       default: true,

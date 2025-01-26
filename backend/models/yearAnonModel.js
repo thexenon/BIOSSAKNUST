@@ -21,6 +21,10 @@ const yearAnonSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    color: {
+      type: String,
+      required: [true, 'Select a color from the list'],
+    },
     sender: { type: mongoose.Schema.ObjectId, ref: 'User' },
     reactions: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
     createdAt: {

@@ -119,20 +119,12 @@ const Profile = () => {
                     router.push("/adminyear");
                   }}
                 />
-              ) : data?.role === "creator" ? (
+              ) : data?.role === "creator" || data?.role === "superadmin" ? (
                 <CustomButton
                   color={COLORS.tertiary}
                   text={"Go to Creator Page"}
                   handlePress={() => {
                     router.push("/creatormain");
-                  }}
-                />
-              ) : data?.role === "superadmin" ? (
-                <CustomButton
-                  color={COLORS.tertiary}
-                  text={"Welcome Xenon"}
-                  handlePress={() => {
-                    router.push("/headmain");
                   }}
                 />
               ) : (
@@ -237,7 +229,10 @@ const UserProfile = ({ currentuser }) => {
       </View>
       <View>
         <Text style={styles.userName}>Phone</Text>
-        <Text style={styles.userBody}>{currentuser?.phone}</Text>
+        <Text style={styles.userBody}>
+          {"+233-(0)"}
+          {currentuser?.phone}
+        </Text>
       </View>
       <View>
         <Text style={styles.userName}>Year / Level</Text>
@@ -246,7 +241,7 @@ const UserProfile = ({ currentuser }) => {
       <View>
         <Text style={styles.userName}>Verification</Text>
         <Text style={styles.userBody}>
-          {currentuser?.isVerifed
+          {currentuser?.isVerified
             ? "Email Verified ✅"
             : "Email Not Verified ❌"}
         </Text>

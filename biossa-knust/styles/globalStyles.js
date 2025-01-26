@@ -70,7 +70,8 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: "center",
     alignItems: "center",
-    margin: 10,
+    marginHorizontal: 10,
+    marginVertical: 20,
     marginLeft: SIZES.medium,
     borderRadius: SIZES.medium,
     backgroundColor: bgColor,
@@ -251,7 +252,7 @@ const styles = StyleSheet.create({
   },
 
   // anon Card
-  container: {
+  container: (bgColor) => ({
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
@@ -263,8 +264,8 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingVertical: 10,
     marginVertical: 10,
-    backgroundColor: COLORS.gray2,
-  },
+    backgroundColor: bgColor ? bgColor : "#00ff22",
+  }),
   delcontainer: {
     justifyContent: "space-between",
     alignItems: "center",

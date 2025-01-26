@@ -151,7 +151,9 @@ const AnonChats = () => {
 
 const MainAnonCard = React.memo(({ mainanon, handleNavigate }) => {
   return (
-    <TouchableOpacity style={styles.container} onPress={() => handleNavigate()}>
+    <TouchableOpacity
+      style={styles.container(mainanon?.color)}
+      onPress={() => handleNavigate()}>
       <View style={styles.textContainer}>
         <Text style={styles.anonName}>{mainanon?.message}</Text>
         <View

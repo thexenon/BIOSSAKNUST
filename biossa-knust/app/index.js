@@ -18,7 +18,7 @@ const Splash = () => {
     if (!token) {
       router.replace("/auth");
     } else {
-      router.replace("/adminyear");
+      router.replace("/home");
     }
   };
 

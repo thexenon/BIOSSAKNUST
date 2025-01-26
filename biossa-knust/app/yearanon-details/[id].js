@@ -262,7 +262,7 @@ const AnonDetails = () => {
 
 const CommentCard = ({ comment }) => {
   return (
-    <View style={styles.container}>
+    <View style={styles.container(COLORS.gray2)}>
       <View style={styles.textContainer}>
         <Text style={styles.commentName}>{comment?.comment}</Text>
 
