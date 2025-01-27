@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import ColorPicker from "react-native-wheel-color-picker";
 import { Stack, useRouter } from "expo-router";
@@ -147,6 +148,12 @@ const CreateYear = () => {
                       color={mycolor}
                       onColorChangeComplete={(color) => setColor(color)}
                       onColorChange={(color) => setColor(color)}
+                      wheelLodingIndicator={
+                        <ActivityIndicator color={COLORS.primary} size={40} />
+                      }
+                      sliderLodingIndicator={
+                        <ActivityIndicator color={COLORS.primary} size={20} />
+                      }
                       palette={[
                         "#888888",
                         "#ed1c24",

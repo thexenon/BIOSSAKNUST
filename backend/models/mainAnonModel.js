@@ -18,6 +18,7 @@ const mainAnonSchema = new mongoose.Schema(
     color: {
       type: String,
       required: [true, 'Select a color from the list'],
+      default: '#00ff22',
     },
     active: {
       type: Boolean,

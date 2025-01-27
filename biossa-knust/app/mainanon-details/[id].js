@@ -22,6 +22,7 @@ import { submitComment, submitReactionLike } from "../../utils/user_api";
 import Icon from "react-native-vector-icons/Ionicons";
 
 const link = "https://biossaknust.onrender.com";
+let senderID = "";
 
 const AnonDetails = () => {
   const router = useRouter();
@@ -46,6 +47,7 @@ const AnonDetails = () => {
       setData(response.data.data.data);
       setIsLoading(false);
       setStatus(response.data.status);
+      senderID = response.data.data.data.sender;
     } catch (error) {
       setError(error);
       Alert.alert("Something went wrong.", error.message);
@@ -221,7 +223,9 @@ const AnonDetails = () => {
               ) : (
                 <FlatList
                   data={data?.comments}
-                  renderItem={({ item }) => <CommentCard comment={item} />}
+                  renderItem={({ item }) => (
+                    <CommentCard comment={item} index={senderID} />
+                  )}
                   keyExtractor={(data) => data?._id}
                   contentContainerStyle={{ columnGap: SIZES.medium }}
                   vertical
@@ -238,6 +242,7 @@ const AnonDetails = () => {
                         placeholderTextColor={COLORS.black}
                         value={commentText}
                         onChangeText={(e) => setCommentText({ comment: e })}
+                        multiline={true}
                       />
                     </View>
                     <TouchableOpacity
@@ -256,10 +261,13 @@ const AnonDetails = () => {
   );
 };
 
-const CommentCard = ({ comment }) => {
+const CommentCard = ({ comment, index }) => {
   return (
     <View style={styles.container(COLORS.gray2)}>
       <View style={styles.textContainer}>
+        <Text style={styles.anonSummary}>
+          {comment.sender.id == index ? "Original Poster" : ""}
+        </Text>
         <Text style={styles.commentName}>{comment?.comment}</Text>
 
         <Text style={styles.commentComment}>

@@ -132,7 +132,7 @@ const AnonChats = () => {
                       handleNavigate={() => {
                         router.push(`/mainanon-details/${item._id}`);
                       }}
-                      yearanon={item}
+                      mainanon={item}
                       handleDelete={() => {
                         Alert.alert(
                           "Delete Message",
@@ -182,7 +182,7 @@ const AnonChats = () => {
 };
 
 const MainAnonCard = React.memo(
-  ({ yearanon, handleNavigate, handleDelete }) => {
+  ({ mainanon, handleNavigate, handleDelete }) => {
     return (
       <View
         style={{
@@ -191,10 +191,10 @@ const MainAnonCard = React.memo(
           justifyContent: "space-between",
         }}>
         <TouchableOpacity
-          style={styles.delcontainer}
+          style={styles.delcontainer(mainanon?.color)}
           onPress={() => handleNavigate()}>
           <View style={styles.textContainer}>
-            <Text style={styles.anonName}>{yearanon?.message}</Text>
+            <Text style={styles.anonName}>{mainanon?.message}</Text>
             <View
               style={{
                 flex: 1,
@@ -202,14 +202,14 @@ const MainAnonCard = React.memo(
                 marginTop: 10,
               }}>
               <Text style={styles.anonComment}>
-                {yearanon.comments.length} Comments
+                {mainanon.comments.length} Comments
               </Text>
               <View style={{ paddingRight: 15 }} />
 
               <Icon name={"heart"} size={20} color={"#355e3b"} />
               <View style={{ paddingRight: 2 }} />
               <Text style={styles.anonLike}>
-                {yearanon.reactions.length} Likes
+                {mainanon.reactions.length} Likes
               </Text>
               <View style={{ paddingRight: 15 }} />
               <Text
@@ -219,9 +219,9 @@ const MainAnonCard = React.memo(
                   fontSize: 10,
                 }}>
                 Posted at:
-                {yearanon?.createdAt.split("T")[0]}
+                {mainanon?.createdAt.split("T")[0]}
                 {"   "}
-                {yearanon?.createdAt.split("T")[1].split(".")[0]}
+                {mainanon?.createdAt.split("T")[1].split(".")[0]}
               </Text>
             </View>
           </View>

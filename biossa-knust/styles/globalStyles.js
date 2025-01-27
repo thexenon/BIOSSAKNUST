@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     marginTop: SIZES.large,
-    height: 50,
+    // height: 50,
   },
   commentWrapper: {
     flex: 1,
@@ -220,13 +220,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: SIZES.medium,
-    height: "100%",
+    // height: "100%",
   },
   commentInput: {
     fontFamily: FONT.regular,
     width: "100%",
-    height: "100%",
+    minHeight: 50,
     paddingHorizontal: SIZES.medium,
+    paddingTop: 10,
     color: COLORS.black,
   },
   commentBtnLike: {
@@ -239,7 +240,7 @@ const styles = StyleSheet.create({
   },
   commentBtnUpload: {
     width: 50,
-    height: "100%",
+    height: 50,
     backgroundColor: COLORS.tertiary,
     borderRadius: SIZES.medium,
     justifyContent: "center",
@@ -266,7 +267,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     backgroundColor: bgColor ? bgColor : "#00ff22",
   }),
-  delcontainer: {
+  delcontainer: (bgColor) => ({
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
@@ -278,8 +279,8 @@ const styles = StyleSheet.create({
     width: "85%",
     paddingVertical: 10,
     marginVertical: 10,
-    backgroundColor: COLORS.gray2,
-  },
+    backgroundColor: bgColor ? bgColor : "#00ff22",
+  }),
 
   textContainer: {
     flex: 1,
@@ -288,12 +289,12 @@ const styles = StyleSheet.create({
   anonName: {
     fontSize: SIZES.medium,
     fontFamily: "DMBold",
-    color: COLORS.primary,
+    color: "#000000",
   },
   anonSummary: {
     fontSize: SIZES.small + 2,
     fontFamily: "DMRegular",
-    color: COLORS.gray,
+    color: "#000000",
     marginTop: 3,
     textTransform: "capitalize",
   },

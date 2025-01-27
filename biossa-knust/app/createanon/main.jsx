@@ -5,6 +5,7 @@ import {
   TextInput,
   Text,
   TouchableOpacity,
+  ActivityIndicator,
   Alert,
 } from "react-native";
 import ColorPicker from "react-native-wheel-color-picker";
@@ -147,6 +148,12 @@ const CreateMain = () => {
                       color={mycolor}
                       onColorChangeComplete={(color) => setColor(color)}
                       onColorChange={(color) => setColor(color)}
+                      wheelLodingIndicator={
+                        <ActivityIndicator color={COLORS.primary} size={40} />
+                      }
+                      sliderLodingIndicator={
+                        <ActivityIndicator color={COLORS.primary} size={20} />
+                      }
                       palette={[
                         "#888888",
                         "#ed1c24",

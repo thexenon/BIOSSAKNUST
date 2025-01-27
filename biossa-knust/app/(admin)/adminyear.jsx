@@ -194,7 +194,7 @@ const MainAnonCard = React.memo(
           justifyContent: "space-between",
         }}>
         <TouchableOpacity
-          style={styles.delcontainer}
+          style={styles.delcontainer(yearanon?.color)}
           onPress={() => handleNavigate()}>
           <View style={styles.textContainer}>
             <Text style={styles.anonName}>{yearanon?.message}</Text>

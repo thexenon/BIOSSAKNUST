@@ -24,6 +24,7 @@ const yearAnonSchema = new mongoose.Schema(
     color: {
       type: String,
       required: [true, 'Select a color from the list'],
+      default: '#00ff22',
     },
     sender: { type: mongoose.Schema.ObjectId, ref: 'User' },
     reactions: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
