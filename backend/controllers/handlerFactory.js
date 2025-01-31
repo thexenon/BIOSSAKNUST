@@ -60,6 +60,26 @@ exports.updateArray = (Model) =>
     });
   });
 
+exports.updateCommentors = (Model) =>
+  catchAsync(async (req, res, next) => {
+    const doc = await Model.findByIdAndUpdate(
+      req.params.id,
+      {
+        $push: { commentors: req.body.commentor },
+      },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+
+    if (!doc) {
+      return next(new AppError('No document found with that ID', 404));
+    }
+
+    next();
+  });
+
 exports.createOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.create(req.body);

@@ -28,6 +28,7 @@ const yearAnonSchema = new mongoose.Schema(
     },
     sender: { type: mongoose.Schema.ObjectId, ref: 'User' },
     reactions: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
+    commentors: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
     createdAt: {
       type: Date,
       default: Date.now,

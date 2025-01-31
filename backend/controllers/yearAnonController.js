@@ -13,3 +13,4 @@ exports.getSingleYearAnon = factory.getOne(YearAnon, { path: 'comments' });
 exports.addNewYearAnon = factory.createOne(YearAnon);
 exports.updateYearAnon = factory.updateOne(YearAnon);
 exports.updateYearAnonReaction = factory.updateArray(YearAnon);
+exports.updateCommentors = factory.updateCommentors(YearAnon);

@@ -12,6 +12,10 @@ router
   .patch(authController.protect, mainAnonController.updateMainAnonReaction);
 
 router
+  .route('/:mainAnonId/commentors')
+  .patch(authController.protect, mainAnonController.updateCommentors);
+
+router
   .route('/')
   .get(mainAnonController.getAllMainAnons)
   .post(

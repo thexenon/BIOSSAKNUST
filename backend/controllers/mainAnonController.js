@@ -12,3 +12,4 @@ exports.getSingleMainAnon = factory.getOne(MainAnon, { path: 'comments' });
 exports.addNewMainAnon = factory.createOne(MainAnon);
 exports.updateMainAnon = factory.updateOne(MainAnon);
 exports.updateMainAnonReaction = factory.updateArray(MainAnon);
+exports.updateCommentors = factory.updateCommentors(MainAnon);
