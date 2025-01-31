@@ -74,7 +74,7 @@ export const submitPost = async (reqData, reqParams) => {
   }
 };
 
-export const submitReactionLike = async (reqData, reqParams) => {
+export const submitArray = async (reqData, reqParams) => {
   try {
     const result = await ApiManager(`/api/v1/${reqParams}`, {
       method: "PATCH",

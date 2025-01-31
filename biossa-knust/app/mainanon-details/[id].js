@@ -13,12 +13,12 @@ import {
 import axios from "axios";
 import { Stack, useRouter } from "expo-router";
 import { useGlobalSearchParams } from "expo-router/build/hooks";
-import { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ErrorView } from "../../components";
 import { COLORS, SIZES } from "../../constants";
 import styles from "../../styles/globalStyles";
-import { submitComment, submitReactionLike } from "../../utils/user_api";
+import { submitComment, submitArray } from "../../utils/user_api";
 import Icon from "react-native-vector-icons/Ionicons";
 
 const link = "https://biossaknust.onrender.com";
@@ -68,6 +68,10 @@ const AnonDetails = () => {
   const [refreshing, setRefreshing] = useState(false);
 
   const submitMyComment = async () => {
+    const myUID = await AsyncStorage.getItem("userUID");
+    const localCommentors = data?.commentors;
+    localCommentors.push(myUID);
+
     if (commentText.comment == "") {
       return Alert.alert("Error", "Please fill in a comment");
     }
@@ -78,19 +82,31 @@ const AnonDetails = () => {
     }
 
     try {
-      await submitComment(
-        { comment: commentText.comment },
+      await submitArray(
+        { commentors: localCommentors },
         `mainanons/${params.id}`
       )
-        .then((result) => {
-          if (result.status == "201") {
-            setCommentText({ comment: "" });
-            fetchData();
-          } else if (result.status == "fail") {
-            Alert.alert(`${result.status.toUpperCase()}`, `${result.message}`);
-          } else {
-            Alert.alert("Somethin went wrong. Please try again later");
-          }
+        .then(async () => {
+          await submitComment(
+            { comment: commentText.comment },
+            `mainanons/${params.id}`
+          )
+            .then((result) => {
+              if (result.status == "201") {
+                setCommentText({ comment: "" });
+                fetchData();
+              } else if (result.status == "fail") {
+                Alert.alert(
+                  `${result.status.toUpperCase()}`,
+                  `${result.message}`
+                );
+              } else {
+                Alert.alert("Somethin went wrong. Please try again later");
+              }
+            })
+            .catch((err) => {
+              Alert.alert("Error", err);
+            });
         })
         .catch((err) => {
           Alert.alert("Error", err);
@@ -108,10 +124,7 @@ const AnonDetails = () => {
     localReactions.push(myUID);
 
     try {
-      await submitReactionLike(
-        { reactions: localReactions },
-        `mainanons/${params.id}`
-      )
+      await submitArray({ reactions: localReactions }, `mainanons/${params.id}`)
         .then((result) => {
           if (result.status == "200") {
             fetchData();

@@ -18,7 +18,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ErrorView } from "../../components";
 import { COLORS, SIZES } from "../../constants";
 import styles from "../../styles/globalStyles";
-import { submitComment, submitReactionLike } from "../../utils/user_api";
+import { submitComment, submitArray } from "../../utils/user_api";
 import Icon from "react-native-vector-icons/Ionicons";
 
 const link = "https://biossaknust.onrender.com";
@@ -68,6 +68,13 @@ const AnonDetails = () => {
   const [refreshing, setRefreshing] = useState(false);
 
   const submitMyComment = async () => {
+    const myUID = await AsyncStorage.getItem("userUID");
+    const localCommentors = data?.commentors;
+
+    if (!localCommentors.includes(myUID)) {
+      localCommentors.push(myUID);
+    }
+
     if (commentText.comment == "") {
       return Alert.alert("Error", "Please fill in a comment");
     }
@@ -78,19 +85,31 @@ const AnonDetails = () => {
     }
 
     try {
-      await submitComment(
-        { comment: commentText.comment },
+      await submitArray(
+        { commentors: localCommentors },
         `yearanons/${params.id}`
       )
-        .then((result) => {
-          if (result.status == "201") {
-            setCommentText({ comment: "" });
-            fetchData();
-          } else if (result.status == "fail") {
-            Alert.alert(`${result.status.toUpperCase()}`, `${result.message}`);
-          } else {
-            Alert.alert("Somethin went wrong. Please try again later");
-          }
+        .then(async () => {
+          await submitComment(
+            { comment: commentText.comment },
+            `yearanons/${params.id}`
+          )
+            .then((result) => {
+              if (result.status == "201") {
+                setCommentText({ comment: "" });
+                fetchData();
+              } else if (result.status == "fail") {
+                Alert.alert(
+                  `${result.status.toUpperCase()}`,
+                  `${result.message}`
+                );
+              } else {
+                Alert.alert("Somethin went wrong. Please try again later");
+              }
+            })
+            .catch((err) => {
+              Alert.alert("Error", err);
+            });
         })
         .catch((err) => {
           Alert.alert("Error", err);
@@ -108,10 +127,7 @@ const AnonDetails = () => {
     localReactions.push(myUID);
 
     try {
-      await submitReactionLike(
-        { reactions: localReactions },
-        `yearanons/${params.id}`
-      )
+      await submitArray({ reactions: localReactions }, `yearanons/${params.id}`)
         .then((result) => {
           if (result.status == "200") {
             fetchData();
@@ -224,7 +240,11 @@ const AnonDetails = () => {
                 <FlatList
                   data={data?.comments}
                   renderItem={({ item }) => (
-                    <CommentCard comment={item} index={senderID} />
+                    <CommentCard
+                      comment={item}
+                      index={senderID}
+                      commentors={data?.commentors}
+                    />
                   )}
                   keyExtractor={(data) => data?._id}
                   contentContainerStyle={{ columnGap: SIZES.medium }}
@@ -261,12 +281,14 @@ const AnonDetails = () => {
   );
 };
 
-const CommentCard = ({ comment, index }) => {
+const CommentCard = ({ comment, index, commentors }) => {
   return (
     <View style={styles.container(COLORS.gray2)}>
       <View style={styles.textContainer}>
         <Text style={styles.anonSummary}>
-          {comment.sender.id == index ? "Original Poster" : ""}
+          {comment.sender.id == index
+            ? "Original Poster"
+            : `BIOSSAN ${commentors.indexOf(comment.sender.id) + 1}`}
         </Text>
         <Text style={styles.commentName}>{comment?.comment}</Text>
 
