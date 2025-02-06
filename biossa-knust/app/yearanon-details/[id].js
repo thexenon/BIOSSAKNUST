@@ -263,6 +263,7 @@ const AnonDetails = () => {
                         value={commentText}
                         onChangeText={(e) => setCommentText({ comment: e })}
                         multiline={true}
+                        maxLength={600}
                       />
                     </View>
                     <TouchableOpacity
@@ -293,7 +294,7 @@ const CommentCard = ({ comment, index, commentors }) => {
         <Text style={styles.commentName}>{comment?.comment}</Text>
 
         <Text style={styles.commentComment}>
-          Posted at:
+          🕗
           {comment?.createdAt.split("T")[0]}
           {"   "}
           {comment?.createdAt.split("T")[1].split(".")[0]}

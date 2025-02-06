@@ -92,6 +92,7 @@ const CreateYear = () => {
                     placeholder="Enter a message to post"
                     placeholderTextColor={COLORS.black}
                     multiline={true}
+                    maxLength={600}
                   />
                 </View>
               </View>

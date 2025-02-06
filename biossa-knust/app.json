@@ -1,10 +1,7 @@
 {
   "expo": {
     "scheme": "biossa",
-    "plugins": [
-      "expo-router",
-      "expo-font"
-    ],
+    "plugins": ["expo-router", "expo-font"],
     "name": "BIOSSA KNUST",
     "slug": "biossa-knust",
     "icon": "./assets/images/logo.jpg",

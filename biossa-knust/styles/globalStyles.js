@@ -386,7 +386,7 @@ const styles = StyleSheet.create({
     color: COLORS.gray,
     marginTop: 3,
     marginBottom: 10,
-    textTransform: "capitalize",
+    // textTransform: "capitalize",
   },
   btnBtnLink: {
     // height: 40,

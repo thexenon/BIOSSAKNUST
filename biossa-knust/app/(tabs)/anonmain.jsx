@@ -177,7 +177,7 @@ const MainAnonCard = React.memo(({ mainanon, handleNavigate }) => {
               alignSelf: "flex-end",
               fontSize: 10,
             }}>
-            Posted at:
+            🕗
             {mainanon?.createdAt.split("T")[0]}
             {"   "}
             {mainanon?.createdAt.split("T")[1].split(".")[0]}

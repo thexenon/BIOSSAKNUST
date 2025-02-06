@@ -70,7 +70,10 @@ const AnonDetails = () => {
   const submitMyComment = async () => {
     const myUID = await AsyncStorage.getItem("userUID");
     const localCommentors = data?.commentors;
-    localCommentors.push(myUID);
+
+    if (!localCommentors.includes(myUID)) {
+      localCommentors.push(myUID);
+    }
 
     if (commentText.comment == "") {
       return Alert.alert("Error", "Please fill in a comment");
@@ -237,7 +240,11 @@ const AnonDetails = () => {
                 <FlatList
                   data={data?.comments}
                   renderItem={({ item }) => (
-                    <CommentCard comment={item} index={senderID} />
+                    <CommentCard
+                      comment={item}
+                      index={senderID}
+                      commentors={data?.commentors}
+                    />
                   )}
                   keyExtractor={(data) => data?._id}
                   contentContainerStyle={{ columnGap: SIZES.medium }}
@@ -256,6 +263,7 @@ const AnonDetails = () => {
                         value={commentText}
                         onChangeText={(e) => setCommentText({ comment: e })}
                         multiline={true}
+                        maxLength={600}
                       />
                     </View>
                     <TouchableOpacity
@@ -274,17 +282,19 @@ const AnonDetails = () => {
   );
 };
 
-const CommentCard = ({ comment, index }) => {
+const CommentCard = ({ comment, index, commentors }) => {
   return (
     <View style={styles.container(COLORS.gray2)}>
       <View style={styles.textContainer}>
         <Text style={styles.anonSummary}>
-          {comment.sender.id == index ? "Original Poster" : ""}
+          {comment.sender.id == index
+            ? "Original Poster"
+            : `BIOSSAN ${commentors.indexOf(comment.sender.id) + 1}`}
         </Text>
         <Text style={styles.commentName}>{comment?.comment}</Text>
 
         <Text style={styles.commentComment}>
-          Posted at:
+          🕗
           {comment?.createdAt.split("T")[0]}
           {"   "}
           {comment?.createdAt.split("T")[1].split(".")[0]}

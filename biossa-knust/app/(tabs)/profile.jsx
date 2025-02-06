@@ -178,25 +178,28 @@ const Profile = () => {
             />
 
             <UserCard
-              fullname={"Derek Donkor (Xenon)"}
+              fullname={"Derek Donkor (DD / Xenon)"}
               email={"donkorderek@gmail.com"}
-              skill={"Back-End Developer"}
-              phone={"+233556585028"}
+              skill={"Mobile Developer (Kotlin/React Native/Flutter) || Back-End Developer (NodeJS)"}
+              phone={"+233556585028 || +233505389520"}
+              github={"thexenon"}
             />
 
             <UserCard
               fullname={"Optimus"}
               email={"optimustryumph1@gmail.com"}
               skill={
-                "Front-End Developer || Graphic Designer || Project Manager"
+                "Front-End Web Developer || Graphic Designer || Project Manager"
               }
+              github={""}
             />
 
             <UserCard
-              fullname={"Bright Kumedzro (BK Designs"}
+              fullname={"Bright Kumedzro (BK Designs All)"}
               phone={"+233248765886"}
               email={"kumedzrobright@gmail.com"}
-              skill={"Front-End Developer || UI/UX"}
+              skill={"Front-End Developer || Graphic Designer || UI/UX || Project/Product Manager"}
+              github={"bright-kumedzro"}
             />
           </View>
         </ScrollView>
@@ -254,10 +257,17 @@ const UserProfile = ({ currentuser }) => {
   );
 };
 
-const UserCard = ({ fullname, phone, email, skill }) => {
+const UserCard = ({ fullname, phone, email, skill, github }) => {
   return (
     <View style={{ padding: 20, backgroundColor: COLORS.lightWhite }}>
       <Text style={styles.userName}>{fullname}</Text>
+      <Link style={{fontSize: 20}} href={ `https://github.com/${github}`}>
+      <Text style={{fontSize: SIZES.large,
+    fontFamily: "DMBold",
+    color: COLORS.secondary,
+    marginTop: 3,
+    marginBottom: 10,}}>Github Profile</Text>
+      </Link>
       <Text style={styles.userBody}>{skill}</Text>
       <Text style={styles.userBody}>{email}</Text>
       <Text style={styles.userBody}>{phone}</Text>

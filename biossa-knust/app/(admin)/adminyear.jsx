@@ -221,7 +221,7 @@ const MainAnonCard = React.memo(
                   alignSelf: "flex-end",
                   fontSize: 10,
                 }}>
-                Posted at:
+                🕗
                 {yearanon?.createdAt.split("T")[0]}
                 {"   "}
                 {yearanon?.createdAt.split("T")[1].split(".")[0]}

@@ -180,7 +180,7 @@ const MainAnonCard = React.memo(({ yearanon, handleNavigate }) => {
               alignSelf: "flex-end",
               fontSize: 10,
             }}>
-            Posted at:
+            🕗
             {yearanon?.createdAt.split("T")[0]}
             {"   "}
             {yearanon?.createdAt.split("T")[1].split(".")[0]}

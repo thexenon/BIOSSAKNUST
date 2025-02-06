@@ -5,6 +5,7 @@ import {
   ScrollView,
   ActivityIndicator,
   BackHandler,
+  Dimensions,
   Alert,
   PermissionsAndroid,
   Platform,
@@ -12,7 +13,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { WebView } from "react-native-webview";
-import RNFS from "react-native-fs";
+// import RNFS from "react-native-fs";
 import * as DocumentPicker from "react-native-document-picker";
 import BackgroundDownloader from "react-native-background-downloader";
 import FileViewer from "react-native-file-viewer";
@@ -269,7 +270,7 @@ const Slides = () => {
               uri: "https://drive.google.com/drive/folders/1vDugpS7NU4O5Yfz9dnatBSRLAtmnh5bI",
             }}
             ref={webViewRef}
-            style={{ height: 830 }}
+            style={{ minHeight: Dimensions.get("window").height - 100 }}
             javaScriptEnabled={true}
             domStorageEnabled={true}
             onShouldStartLoadWithRequest={(event) => {
