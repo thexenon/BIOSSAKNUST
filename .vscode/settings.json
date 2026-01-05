@@ -1,0 +1,204 @@
+{
+  "prettier.configPath": "../BIOSSAKNUST/.prettierrc",
+  "editor.formatOnSave": true,
+  "vs-code-prettier-eslint.prettierLast": true,
+  "eslint.codeActionsOnSave.options": {},
+  "eslint.format.enable": true,
+  "eslint.debug": true,
+  "eslint.codeActionsOnSave.rules": [
+    "addMissingImports",
+    "fixAll",
+    "fixAll.eslint",
+    "removeUnused",
+    "organizeImports",
+    "source.fixAll",
+    "source.fixAll.eslint",
+    "source.organizeImports",
+    "source.addMissingImports",
+    "source.removeUnusedImports",
+    "source.sortImports",
+    "source.organizeImports.ts",
+    "source.organizeImports.js",
+    "source.organizeImports.jsx",
+    "source.organizeImports.tsx",
+    "source.organizeImports.json",
+    "source.organizeImports.css",
+    "source.organizeImports.dart",
+    "source.organizeImports.php",
+    "source.organizeImports.python",
+    "source.organizeImports.swift",
+    "source.organizeImports.kotlin"
+  ],
+  "eslint.rules.customizations": [
+    { "rule": "no-unused-vars", "severity": "error" },
+    { "rule": "no-console", "severity": "warn" },
+    { "rule": "react/prop-types", "severity": "off" },
+    {
+      "rule": "react/react-in-jsx-scope",
+      "severity": "off"
+    },
+    {
+      "rule": "react/jsx-uses-react",
+      "severity": "off"
+    },
+    {
+      "rule": "react/jsx-uses-vars",
+      "severity": "off"
+    },
+    {
+      "rule": "import/no-unresolved",
+      "severity": "off"
+    },
+    { "rule": "import/extensions", "severity": "off" },
+    {
+      "rule": "import/prefer-default-export",
+      "severity": "off"
+    },
+    {
+      "rule": "import/no-extraneous-dependencies",
+      "severity": "off"
+    },
+    {
+      "rule": "jsx-a11y/anchor-is-valid",
+      "severity": "off"
+    },
+    {
+      "rule": "jsx-a11y/click-events-have-key-events",
+      "severity": "off"
+    },
+    {
+      "rule": "jsx-a11y/no-static-element-interactions",
+      "severity": "off"
+    },
+    {
+      "rule": "jsx-a11y/no-noninteractive-element-interactions",
+      "severity": "off"
+    },
+    {
+      "rule": "jsx-a11y/no-noninteractive-tabindex",
+      "severity": "off"
+    },
+    {
+      "rule": "jsx-a11y/label-has-associated-control",
+      "severity": "off"
+    },
+    {
+      "rule": "jsx-a11y/label-has-for",
+      "severity": "off"
+    },
+    {
+      "rule": "prettier/prettier",
+      "severity": "error"
+    },
+    { "rule": "no-debugger", "severity": "warn" },
+    { "rule": "no-alert", "severity": "warn" },
+    {
+      "rule": "no-underscore-dangle",
+      "severity": "off"
+    },
+    { "rule": "consistent-return", "severity": "off" },
+    { "rule": "func-names", "severity": "warn" },
+    {
+      "rule": "prefer-arrow-callback",
+      "severity": "off"
+    },
+    {
+      "rule": "space-before-function-paren",
+      "severity": "off"
+    },
+    {
+      "rule": "object-curly-newline",
+      "severity": "off"
+    },
+    {
+      "rule": "implicit-arrow-linebreak",
+      "severity": "off"
+    },
+    { "rule": "operator-linebreak", "severity": "off" },
+    { "rule": "max-len", "severity": "off" },
+    { "rule": "no-param-reassign", "severity": "off" },
+    { "rule": "no-plusplus", "severity": "off" },
+    { "rule": "no-shadow", "severity": "off" },
+    {
+      "rule": "no-use-before-define",
+      "severity": "off"
+    },
+    {
+      "rule": "react/jsx-filename-extension",
+      "severity": "off"
+    },
+    {
+      "rule": "react/jsx-props-no-spreading",
+      "severity": "off"
+    },
+    {
+      "rule": "react/function-component-definition",
+      "severity": "off"
+    },
+    {
+      "rule": "react/no-array-index-key",
+      "severity": "off"
+    },
+    { "rule": "react/no-danger", "severity": "off" },
+    {
+      "rule": "react/no-unescaped-entities",
+      "severity": "off"
+    },
+    {
+      "rule": "react/require-default-props",
+      "severity": "off"
+    },
+    {
+      "rule": "react/state-in-constructor",
+      "severity": "off"
+    },
+    {
+      "rule": "react/static-property-placement",
+      "severity": "off"
+    },
+    {
+      "rule": "class-methods-use-this",
+      "severity": "off"
+    },
+    {
+      "rule": "lines-between-class-members",
+      "severity": "off"
+    },
+    {
+      "rule": "no-restricted-syntax",
+      "severity": "off"
+    },
+    { "rule": "no-await-in-loop", "severity": "off" },
+    { "rule": "no-continue", "severity": "off" },
+    { "rule": "no-else-return", "severity": "off" },
+    { "rule": "no-lonely-if", "severity": "off" },
+    {
+      "rule": "prefer-destructuring",
+      "severity": "off"
+    },
+    { "rule": "prefer-template", "severity": "off" },
+    {
+      "rule": "template-curly-spacing",
+      "severity": "off"
+    },
+    { "rule": "arrow-body-style", "severity": "off" },
+    { "rule": "comma-dangle", "severity": "off" },
+    { "rule": "import/order", "severity": "off" },
+    {
+      "rule": "import/newline-after-import",
+      "severity": "off"
+    },
+    {
+      "rule": "import/no-duplicates",
+      "severity": "warn"
+    },
+    {
+      "rule": "import/no-named-as-default-member",
+      "severity": "off"
+    },
+    {
+      "rule": "import/no-named-as-default",
+      "severity": "off"
+    }
+  ]
+}
