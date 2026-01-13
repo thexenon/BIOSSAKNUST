@@ -1,20 +1,30 @@
 {
   "expo": {
     "scheme": "biossa",
-    "plugins": ["expo-router", "expo-font"],
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-secure-store"
+    ],
     "name": "BIOSSA KNUST",
     "slug": "biossa-knust",
-    "icon": "./assets/images/logo.jpg",
+    "icon": "./src/assets/images/logo.jpg",
     "newArchEnabled": true,
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/logo.jpg",
+        "foregroundImage": "./src/assets/images/logo.jpg",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.thexenon.biossa_knust"
+      "package": "com.thexenon.biossa_knust",
+      "permissions": [
+        "INTERNET",
+        "CAMERA",
+        "READ_MEDIA_IMAGES",
+        "READ_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
-      "favicon": "./assets/images/logo.jpg"
+      "favicon": "./src/assets/images/logo.jpg"
     },
     "extra": {
       "router": {
@@ -25,7 +35,12 @@
       }
     },
     "ios": {
-      "bundleIdentifier": "com.thexenon.biossaknust"
+      "bundleIdentifier": "com.thexenon.biossaknust",
+      "infoPlist": {
+        "NSCameraUsageDescription": "We need camera access to take photos you choose to upload.",
+        "NSPhotoLibraryUsageDescription": "We need access to your photos so you can select images to upload.",
+        "NSPhotoLibraryAddUsageDescription": "We need permission to save images to your photo library."
+      }
     }
   }
 }

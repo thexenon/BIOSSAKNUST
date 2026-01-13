@@ -188,7 +188,7 @@ const Profile = () => {
             {/* {appUpdate ? (
                 <Link
                   href={
-                    "https://drive.google.com/drive/folders/1vDugpS7NU4O5Yfz9dnatBSRLAtmnh5bI"
+                    "https://drive.google.com/drive/folders/1gw4Z79qWrOJIHfwsy1ad1XIp1Lc6TQRt"
                   }
                   style={{
                     backgroundColor: "#ff0000",

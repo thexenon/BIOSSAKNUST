@@ -1,6 +1,15 @@
 // TODO: Remove the fetching functions from the pages it is called to here
-import ApiManager from "./ApiManager";
+import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const link = 'https://biossaknust.onrender.com';
+// const link = 'http://192.168.1.123:3000';
+
+const ApiManager = axios.create({
+  baseURL: `${link}`,
+  responseType: 'json',
+  withCredentials: true,
+});
 
 const getHeadersWithJwt = async () => {
   const jwt = await AsyncStorage.getItem('jwt');
@@ -12,10 +21,10 @@ const getHeadersWithJwt = async () => {
 
 export const user_login = async (reqData) => {
   try {
-    const result = await ApiManager("/api/v1/users/login", {
-      method: "POST",
+    const result = await ApiManager('/api/v1/users/login', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       data: reqData,
     });
@@ -26,10 +35,10 @@ export const user_login = async (reqData) => {
 };
 export const forgotPass = async (reqData) => {
   try {
-    const result = await ApiManager("/api/v1/users/forgotPassword", {
-      method: "POST",
+    const result = await ApiManager('/api/v1/users/forgotPassword', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       data: reqData,
     });
@@ -41,10 +50,10 @@ export const forgotPass = async (reqData) => {
 
 export const user_signup = async (reqData) => {
   try {
-    const result = await ApiManager("/api/v1/users/signup", {
-      method: "POST",
+    const result = await ApiManager('/api/v1/users/signup', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       data: reqData,
     });
@@ -57,9 +66,9 @@ export const user_signup = async (reqData) => {
 export const submitComment = async (reqData, reqParams) => {
   try {
     const result = await ApiManager(`/api/v1/${reqParams}/comments`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       data: reqData,
     });
@@ -72,9 +81,9 @@ export const submitComment = async (reqData, reqParams) => {
 export const submitArray = async (reqData, reqParams) => {
   try {
     const result = await ApiManager(`/api/v1/${reqParams}`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       data: reqData,
     });

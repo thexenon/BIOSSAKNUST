@@ -50,7 +50,8 @@ const Home = () => {
             setBuiltInZoomControls={true}
             onError={() => <ErrorView msg={'Load failed'} />}
             source={{
-              uri: 'https://www.biossaknust.com',
+              // uri: 'https://www.biossaknust.com',
+              uri: 'https://sites.google.com/view/biossa-knust/home',
             }}
             ref={webViewRef}
             style={{ minHeight: Dimensions.get('window').height - 100 }}

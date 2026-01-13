@@ -81,16 +81,16 @@ const TabLayout = () => {
           }}
         />
 
-        {/* <Tabs.Screen
+        <Tabs.Screen
           name="slides"
           options={{
-            title: "Slides",
+            title: 'Slides',
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
-              <TabIcon icon={"book"} color={color} focused={focused} />
+              <TabIcon icon={'book'} color={color} focused={focused} />
             ),
           }}
-        /> */}
+        />
 
         <Tabs.Screen
           name="chats"

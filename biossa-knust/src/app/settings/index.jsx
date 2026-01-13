@@ -14,8 +14,7 @@ import { getItems, submitUserUpdate } from '../../utils/user_api';
 import { COLORS } from '../../constants';
 import { Feather } from '@expo/vector-icons';
 
-
-export default function SettingsScreen() {
+export default function Index() {
   const [userImage, setUserImage] = useState('');
   const [loading, setLoading] = useState(true);
   const [info, setInfo] = useState({
@@ -86,8 +85,6 @@ export default function SettingsScreen() {
     Alert.alert('Success', 'Password updated!');
   };
 
-
-
   if (loading) {
     return (
       <View
@@ -108,9 +105,14 @@ export default function SettingsScreen() {
       style={styles.section}
       contentContainerStyle={{ paddingBottom: 32 }}
     >
-      <Stack.Screen options={
-        { title: 'Settings', headerStyle: { backgroundColor: COLORS.primary }, headerTintColor: '#fff', headerBackButtonDisplayMode: 'minimal' }
-      } />
+      <Stack.Screen
+        options={{
+          title: 'Settings',
+          headerStyle: { backgroundColor: COLORS.primary },
+          headerTintColor: '#fff',
+          headerBackButtonDisplayMode: 'minimal',
+        }}
+      />
       <Text style={styles.sectionTitle}>Edit User Info</Text>
       <TextInput
         style={styles.inputLarge}
@@ -140,7 +142,9 @@ export default function SettingsScreen() {
         placeholder="Description"
         placeholderTextColor={'#888'}
         value={info.description}
-        onChangeText={(text) => setInfo((prev) => ({ ...prev, description: text }))}
+        onChangeText={(text) =>
+          setInfo((prev) => ({ ...prev, description: text }))
+        }
         multiline
         numberOfLines={10}
       />

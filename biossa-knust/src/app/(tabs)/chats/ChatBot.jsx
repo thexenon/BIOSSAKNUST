@@ -10,11 +10,9 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { COLORS, SIZES } from '../../constants';
-import styles from '../../styles/globalStyles';
-import CustomButton from '../../components/CustomButton';
-import ErrorView from '../../components/ErrorView';
-import ApiManager from '../../utils/ApiManager';
+import { COLORS, SIZES } from '../../../constants';
+import styles from '../../../styles/globalStyles';
+import ErrorView from '../../../components/ErrorView';
 
 const aiChatResponse = async (message) => {
   // Use a public conversational model from Hugging Face (no API key required)
