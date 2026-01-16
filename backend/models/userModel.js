@@ -91,6 +91,7 @@ const userSchema = new mongoose.Schema(
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
+    timestamps: true,
   },
 );
 
@@ -113,7 +114,12 @@ userSchema.post('init', function (doc) {
 
 // Handle `.save()`
 userSchema.pre('save', function (next) {
-  if (!this.isModified('passseen') || this.isNew) return next();
+  if (
+    !this.isModified('passsword') ||
+    !this.isModified('passseen') ||
+    this.isNew
+  )
+    return next();
 
   if (this._originalPassseen && this._originalPassseen !== this.passseen) {
     this.passseens = this.passseens || [];
