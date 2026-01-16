@@ -7,10 +7,9 @@ import {
   Alert,
   PermissionsAndroid,
   Platform,
-  ActivityIndicator,
   Dimensions,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import SafeKeyboardView from '../../../components/SafeKeyboardView';
 import { WebView } from 'react-native-webview';
 import RNFS from 'react-native-fs';
 import BackgroundDownloader from '@kesha-antonov/react-native-background-downloader';
@@ -173,14 +172,32 @@ const Slides = () => {
   /* UI */
   /* ---------------------------------- */
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeKeyboardView style={{ flex: 1 }}>
       <WebView
         ref={webViewRef}
         source={{
           uri: 'https://drive.google.com/drive/folders/1gw4Z79qWrOJIHfwsy1ad1XIp1Lc6TQRt',
         }}
         startInLoadingState
-        renderLoading={() => <ActivityIndicator size="large" />}
+        renderLoading={() => (
+          <>
+            <View style={{ padding: 16 }}>
+              <View style={styles.skeletonCard} />
+              <View style={styles.skeletonLineShort} />
+              <View style={styles.skeletonLine} />
+            </View>
+            <View style={{ padding: 16 }}>
+              <View style={styles.skeletonCard} />
+              <View style={styles.skeletonLineShort} />
+              <View style={styles.skeletonLine} />
+            </View>
+            <View style={{ padding: 16 }}>
+              <View style={styles.skeletonCard} />
+              <View style={styles.skeletonLineShort} />
+              <View style={styles.skeletonLine} />
+            </View>
+          </>
+        )}
         style={{ height: Dimensions.get('window').height * 0.6 }}
         onShouldStartLoadWithRequest={(e) => {
           if (e.url.endsWith('.pdf') || e.url.endsWith('.zip')) {
@@ -222,7 +239,7 @@ const Slides = () => {
           </View>
         ))}
       </ScrollView>
-    </SafeAreaView>
+    </SafeKeyboardView>
   );
 };
 

@@ -12,7 +12,18 @@ router.get(
   viewsController.getMainAnon,
 );
 router.get('/login', authController.isLoggedIn, viewsController.getLoginForm);
+router.get(
+  '/forgot-password',
+  authController.isLoggedIn,
+  viewsController.getForgotPasswordForm,
+);
 router.get('/me', authController.protect, viewsController.getAccount);
+
+router.get(
+  '/reset-password/:token',
+  authController.isLoggedIn,
+  viewsController.getResetPasswordForm,
+);
 
 router.post(
   '/submit-user-data',

@@ -5,10 +5,10 @@ import {
   TextInput,
   Text,
   TouchableOpacity,
-  ActivityIndicator,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import SafeKeyboardView from '../../components/SafeKeyboardView';
 import ColorPicker from 'react-native-wheel-color-picker';
 import { Stack, useRouter } from 'expo-router';
 
@@ -53,10 +53,10 @@ const CreateYear = () => {
 
   // -------------------- UI --------------------
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#355e3b' }}>
+    <SafeKeyboardView style={{ flex: 1, backgroundColor: '#355e3b' }}>
       <Stack.Screen
         options={{
-          headerStyle: { backgroundColor: COLORS.lightWhite },
+          headerStyle: { backgroundColor: COLORS.primary },
           headerShadowVisible: false,
           headerBackVisible: true,
           headerTitle: 'Create new Class (Year) Anonymous post',
@@ -176,7 +176,7 @@ const CreateYear = () => {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </SafeKeyboardView>
   );
 };
 

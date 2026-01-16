@@ -45,7 +45,7 @@ const SlidesLayout = () => {
             animation: 'fade_from_bottom',
             drawerIcon: ({ color, size }) =>
               myDrawerIcon({
-                name: 'cog-outline',
+                name: 'book-open-variant',
                 size: size + 2,
                 color,
               }),
@@ -59,7 +59,7 @@ const SlidesLayout = () => {
             animation: 'fade_from_bottom',
             drawerIcon: ({ color, size }) =>
               myDrawerIcon({
-                name: 'trumpet',
+                name: 'download',
                 size: size + 2,
                 color,
               }),
@@ -73,21 +73,7 @@ const SlidesLayout = () => {
             animation: 'fade_from_bottom',
             drawerIcon: ({ color, size }) =>
               myDrawerIcon({
-                name: 'hands-pray',
-                size: size + 2,
-                color,
-              }),
-          }}
-        />
-        <Drawer.Screen
-          name="MyAnnouncements"
-          options={{
-            drawerLabel: 'My Announcements',
-            title: 'My Announcements',
-            animation: 'fade_from_bottom',
-            drawerIcon: ({ color, size }) =>
-              myDrawerIcon({
-                name: 'bell-ring',
+                name: 'file',
                 size: size + 2,
                 color,
               }),

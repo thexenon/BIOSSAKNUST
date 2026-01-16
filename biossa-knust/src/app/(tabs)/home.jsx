@@ -1,12 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import {
-  View,
-  ScrollView,
-  ActivityIndicator,
-  BackHandler,
-  Dimensions,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, ScrollView, BackHandler, Dimensions } from 'react-native';
+import SafeKeyboardView from '../../components/SafeKeyboardView';
 import { WebView } from 'react-native-webview';
 import styles from '../../styles/globalStyles';
 import { ErrorView } from '../../components';
@@ -37,7 +31,7 @@ const Home = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.safeSpace}>
+    <SafeKeyboardView>
       <ScrollView>
         <View>
           <WebView
@@ -45,7 +39,23 @@ const Home = () => {
             startInLoadingState={true}
             allowsBackForwardNavigationGestures={true}
             renderLoading={() => (
-              <ActivityIndicator size="large" color={COLORS.primary} />
+              <>
+                <View style={{ padding: 16 }}>
+                  <View style={styles.skeletonCard} />
+                  <View style={styles.skeletonLineShort} />
+                  <View style={styles.skeletonLine} />
+                </View>
+                <View style={{ padding: 16 }}>
+                  <View style={styles.skeletonCard} />
+                  <View style={styles.skeletonLineShort} />
+                  <View style={styles.skeletonLine} />
+                </View>
+                <View style={{ padding: 16 }}>
+                  <View style={styles.skeletonCard} />
+                  <View style={styles.skeletonLineShort} />
+                  <View style={styles.skeletonLine} />
+                </View>
+              </>
             )}
             setBuiltInZoomControls={true}
             onError={() => <ErrorView msg={'Load failed'} />}
@@ -58,7 +68,7 @@ const Home = () => {
           />
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </SafeKeyboardView>
   );
 };
 

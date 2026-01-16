@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { Tabs } from 'expo-router';
-import { View } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import { View, Platform } from 'react-native';
+import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';
+import { COLORS } from '../../constants';
 
 const TabIcon = ({ icon, color, focused }) => {
   return (
@@ -16,7 +17,7 @@ const TabIcon = ({ icon, color, focused }) => {
       <Icon
         name={icon}
         size={20}
-        color={focused ? color : '#355e3b'}
+        color={focused ? color : '#B7C8B0'}
         resizeMode="contain"
       />
     </View>
@@ -27,7 +28,7 @@ const TabLayout = () => {
   return (
     <>
       <StatusBar
-        backgroundColor="#05f805ff"
+        backgroundColor={COLORS.primary}
         translucent={true}
         animated={true}
         barStyle={'dark-content'}
@@ -37,12 +38,24 @@ const TabLayout = () => {
           tabBarActiveTintColor: '#FFA001',
           tabBarInactiveTintColor: '#CDCDE0',
           tabBarShowLabel: true,
+          headerStyle: { backgroundColor: COLORS.primary },
           headerBackButtonDisplayMode: 'minimal',
           tabBarStyle: {
-            backgroundColor: '#161622',
-            borderTopWidth: 1,
-            borderTopColor: '#232533',
-            height: 60,
+            position: 'absolute',
+            bottom: 30,
+            left: 16,
+            right: 16,
+            elevation: 8,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 6 },
+            shadowOpacity: 0.12,
+            shadowRadius: 12,
+            backgroundColor: COLORS.primary,
+            borderRadius: 18,
+            borderTopWidth: 0,
+            height: 64,
+            paddingBottom: Platform.OS === 'android' ? 8 : 14,
+            marginHorizontal: 20,
           },
           popToTopOnBlur: true,
         }}
@@ -54,7 +67,11 @@ const TabLayout = () => {
             title: 'Home',
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
-              <TabIcon icon={'home'} color={color} focused={focused} />
+              <TabIcon
+                icon={focused ? 'home' : 'home-outline'}
+                color={color}
+                focused={focused}
+              />
             ),
           }}
         />
@@ -65,7 +82,11 @@ const TabLayout = () => {
             title: 'Main Anon',
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
-              <TabIcon icon={'eye-slash'} color={color} focused={focused} />
+              <TabIcon
+                icon={focused ? 'account-group' : 'account-group-outline'}
+                color={color}
+                focused={focused}
+              />
             ),
           }}
         />
@@ -76,7 +97,11 @@ const TabLayout = () => {
             title: 'Class Anon',
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
-              <TabIcon icon={'eye-slash'} color={color} focused={focused} />
+              <TabIcon
+                icon={focused ? 'account-group' : 'account-group-outline'}
+                color={color}
+                focused={focused}
+              />
             ),
           }}
         />
@@ -87,7 +112,11 @@ const TabLayout = () => {
             title: 'Slides',
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
-              <TabIcon icon={'book'} color={color} focused={focused} />
+              <TabIcon
+                icon={'book-open-variant'}
+                color={color}
+                focused={focused}
+              />
             ),
           }}
         />
@@ -95,10 +124,15 @@ const TabLayout = () => {
         <Tabs.Screen
           name="chats"
           options={{
+            href: null,
             title: 'Chats',
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
-              <TabIcon icon={'robot'} color={color} focused={focused} />
+              <TabIcon
+                icon={focused ? 'robot' : 'robot-outline'}
+                color={color}
+                focused={focused}
+              />
             ),
           }}
         />
@@ -109,7 +143,11 @@ const TabLayout = () => {
             title: 'Profile',
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
-              <TabIcon icon={'address-card'} color={color} focused={focused} />
+              <TabIcon
+                icon={focused ? 'account-box' : 'account-box-outline'}
+                color={color}
+                focused={focused}
+              />
             ),
           }}
         />

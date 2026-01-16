@@ -3,12 +3,11 @@ import {
   Text,
   View,
   ScrollView,
-  ActivityIndicator,
   Alert,
   RefreshControl,
   Image,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import SafeKeyboardView from '../../components/SafeKeyboardView';
 import { Link, useRouter, Stack } from 'expo-router';
 import { getItems, deleteAccount } from '../../utils/user_api';
 import { handleLogout } from '../../utils/authState';
@@ -114,10 +113,30 @@ const Profile = () => {
     );
   };
 
+  if (isLoading) {
+    return (
+      <>
+        <View style={{ padding: 16 }}>
+          <View style={styles.skeletonCard} />
+          <View style={styles.skeletonLineShort} />
+          <View style={styles.skeletonLine} />
+        </View>
+        <View style={{ padding: 16 }}>
+          <View style={styles.skeletonCard} />
+          <View style={styles.skeletonLineShort} />
+          <View style={styles.skeletonLine} />
+        </View>
+        <View style={{ padding: 16 }}>
+          <View style={styles.skeletonCard} />
+          <View style={styles.skeletonLineShort} />
+          <View style={styles.skeletonLine} />
+        </View>
+      </>
+    );
+  }
+
   return (
-    <SafeAreaView
-      style={[styles.safeSpace, { backgroundColor: COLORS.lightWhite }]}
-    >
+    <SafeKeyboardView style={{ backgroundColor: COLORS.lightWhite }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         refreshControl={
@@ -137,9 +156,7 @@ const Profile = () => {
             My Account Details
           </Text>
         </View>
-        {isLoading ? (
-          <ActivityIndicator size="large" color={COLORS.primary} />
-        ) : error ? (
+        {error ? (
           ((<ErrorView msg={'Something went wrong. Please try again'} />),
           Alert.alert('Something went wrong.', `${error.message}`))
         ) : data.length === 0 || data == null ? (
@@ -264,7 +281,7 @@ const Profile = () => {
           />
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </SafeKeyboardView>
   );
 };
 

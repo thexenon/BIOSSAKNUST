@@ -9,7 +9,7 @@ import {
   Platform,
   ActivityIndicator,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import SafeKeyboardView from '../../../components/SafeKeyboardView';
 import { COLORS, SIZES } from '../../../constants';
 import styles from '../../../styles/globalStyles';
 import ErrorView from '../../../components/ErrorView';
@@ -102,7 +102,7 @@ const ChatBot = () => {
   );
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
+    <SafeKeyboardView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -168,7 +168,7 @@ const ChatBot = () => {
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </SafeKeyboardView>
   );
 };
 

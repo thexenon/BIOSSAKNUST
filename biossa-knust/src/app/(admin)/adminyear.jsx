@@ -4,19 +4,19 @@ import {
   View,
   Text,
   TouchableOpacity,
-  ActivityIndicator,
   FlatList,
   ScrollView,
   Alert,
   TextInput,
   RefreshControl,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import SafeKeyboardView from '../../components/SafeKeyboardView';
+import { Swipeable } from 'react-native-gesture-handler';
 import { COLORS, SIZES } from '../../constants';
 import styles from '../../styles/globalStyles';
 import { ErrorView } from '../../components';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import { FontAwesome5 as Icon } from '@expo/vector-icons';
 import { getItems, deleteItems } from '../../utils/user_api';
 
 const year = AsyncStorage.getItem('year');
@@ -93,9 +93,31 @@ const AdminAnonChats = () => {
     item.message.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  if (isLoading) {
+    return (
+      <>
+        <View style={{ padding: 16 }}>
+          <View style={styles.skeletonCard} />
+          <View style={styles.skeletonLineShort} />
+          <View style={styles.skeletonLine} />
+        </View>
+        <View style={{ padding: 16 }}>
+          <View style={styles.skeletonCard} />
+          <View style={styles.skeletonLineShort} />
+          <View style={styles.skeletonLine} />
+        </View>
+        <View style={{ padding: 16 }}>
+          <View style={styles.skeletonCard} />
+          <View style={styles.skeletonLineShort} />
+          <View style={styles.skeletonLine} />
+        </View>
+      </>
+    );
+  }
+
   return (
-    <SafeAreaView
-      style={{ flex: 1, marginTop: 20, marginBottom: 30, paddingBottom: 30 }}
+    <SafeKeyboardView
+      style={{ marginTop: 20, marginBottom: 30, paddingBottom: 30 }}
     >
       <View>
         <View style={styles.searchcontainer}>
@@ -162,9 +184,7 @@ const AdminAnonChats = () => {
             </View>
 
             <View style={styles.homecardsContainer}>
-              {isLoading ? (
-                <ActivityIndicator size="large" color={COLORS.primary} />
-              ) : error ? (
+              {error ? (
                 ((<ErrorView msg={'Something went wrong. Please try again'} />),
                 Alert.alert('Something went wrong.', error.message))
               ) : data.length === 0 || data == null ? (
@@ -191,20 +211,27 @@ const AdminAnonChats = () => {
           </View>
         </ScrollView>
       </View>
-    </SafeAreaView>
+    </SafeKeyboardView>
   );
 };
 
 const MainAnonCard = React.memo(
   ({ yearanon, handleNavigate, handleDelete }) => {
-    return (
-      <View
+    const renderRightActions = () => (
+      <TouchableOpacity
+        onPress={() => handleDelete()}
         style={{
-          flex: 1,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
+          justifyContent: 'center',
+          alignItems: 'center',
+          paddingHorizontal: 12,
         }}
       >
+        <Icon name={'trash'} size={30} color={'#ff0000'} />
+      </TouchableOpacity>
+    );
+
+    return (
+      <Swipeable renderRightActions={renderRightActions}>
         <TouchableOpacity
           style={styles.delcontainer(yearanon?.color)}
           onPress={() => handleNavigate()}
@@ -242,19 +269,7 @@ const MainAnonCard = React.memo(
             </View>
           </View>
         </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => handleDelete()}
-          style={{
-            alignItems: 'center',
-            alignContent: 'center',
-            alignSelf: 'center',
-            textAlign: 'center',
-          }}
-        >
-          <Icon name={'trash'} size={40} color={'#ff0000'} />
-        </TouchableOpacity>
-      </View>
+      </Swipeable>
     );
   }
 );

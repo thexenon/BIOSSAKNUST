@@ -4,14 +4,13 @@ import {
   View,
   Text,
   TouchableOpacity,
-  ActivityIndicator,
   FlatList,
   ScrollView,
   Alert,
   TextInput,
   RefreshControl,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import SafeKeyboardView from '../../components/SafeKeyboardView';
 import { getItems } from '../../utils/user_api';
 import { COLORS, SIZES } from '../../constants';
 import styles from '../../styles/globalStyles';
@@ -64,8 +63,30 @@ const AnonChats = () => {
     item.message.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  if (isLoading) {
+    return (
+      <>
+        <View style={{ padding: 16 }}>
+          <View style={styles.skeletonCard} />
+          <View style={styles.skeletonLineShort} />
+          <View style={styles.skeletonLine} />
+        </View>
+        <View style={{ padding: 16 }}>
+          <View style={styles.skeletonCard} />
+          <View style={styles.skeletonLineShort} />
+          <View style={styles.skeletonLine} />
+        </View>
+        <View style={{ padding: 16 }}>
+          <View style={styles.skeletonCard} />
+          <View style={styles.skeletonLineShort} />
+          <View style={styles.skeletonLine} />
+        </View>
+      </>
+    );
+  }
+
   return (
-    <SafeAreaView
+    <SafeKeyboardView
       style={{ flex: 1, marginTop: 20, marginBottom: 30, paddingBottom: 30 }}
     >
       <View>
@@ -88,7 +109,7 @@ const AnonChats = () => {
           </View>
         </View>
 
-        <View style={[styles.homeheader, { padding: SIZES.medium }]}>
+        <View style={[styles.homeheader, { padding: SIZES.small }]}>
           <TouchableOpacity
             onPress={() => {
               setSearchQuery('');
@@ -133,9 +154,7 @@ const AnonChats = () => {
         >
           <View style={styles.homecontainer}>
             <View style={styles.homecardsContainer}>
-              {isLoading ? (
-                <ActivityIndicator size="large" color={COLORS.primary} />
-              ) : error ? (
+              {error ? (
                 ((<ErrorView msg={'Something went wrong. Please try again'} />),
                 Alert.alert('Something went wrong.', error.message))
               ) : data.length === 0 || data == null ? (
@@ -161,7 +180,7 @@ const AnonChats = () => {
           </View>
         </ScrollView>
       </View>
-    </SafeAreaView>
+    </SafeKeyboardView>
   );
 };
 

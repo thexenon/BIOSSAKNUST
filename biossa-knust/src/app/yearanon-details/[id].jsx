@@ -1,24 +1,26 @@
+import React, { useCallback, useState, useEffect } from 'react';
 import {
   Text,
   View,
   ScrollView,
-  ActivityIndicator,
   FlatList,
   TouchableOpacity,
   RefreshControl,
   TextInput,
   Alert,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import SafeKeyboardView from '../../components/SafeKeyboardView';
+import { Share } from 'react-native';
+import * as Linking from 'expo-linking';
+import { sendNotification } from '../../utils/user_api';
 import { Stack } from 'expo-router';
 import { useGlobalSearchParams } from 'expo-router/build/hooks';
-import { useCallback, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ErrorView } from '../../components';
 import { COLORS, SIZES } from '../../constants';
 import styles from '../../styles/globalStyles';
 import { submitComment, submitArray, getItemById } from '../../utils/user_api';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Ionicons as Icon } from '@expo/vector-icons';
 
 let senderID = '';
 
@@ -51,6 +53,19 @@ const AnonDetails = () => {
     fetchData();
   }, []);
 
+  const onShare = async () => {
+    try {
+      const url = Linking.createURL(`yearanon-details/${params.id}`);
+      await Share.share({
+        message: `Check out this anonymous post on BIOSSA: ${url}`,
+        url,
+        title: 'BIOSSA - Anonymous Post',
+      });
+    } catch (error) {
+      Alert.alert('Share failed', error.message);
+    }
+  };
+
   const refetch = () => {
     setIsLoading(true);
     fetchData();
@@ -60,7 +75,7 @@ const AnonDetails = () => {
     setRefreshing(true);
     refetch();
     setRefreshing(false);
-  });
+  }, []);
 
   const submitMyComment = async () => {
     const myUID = await AsyncStorage.getItem('userUID');
@@ -75,9 +90,6 @@ const AnonDetails = () => {
     }
 
     setSubmitting(true);
-    if (isSubmitting) {
-      return <ActivityIndicator size="large" color={COLORS.primary} />;
-    }
 
     try {
       await submitArray(
@@ -93,6 +105,17 @@ const AnonDetails = () => {
               if (result.status == '201') {
                 setCommentText({ comment: '' });
                 fetchData();
+                // notify post sender
+                try {
+                  sendNotification({
+                    to: senderID,
+                    type: 'comment',
+                    message: `${commentText.comment}`,
+                    postId: params.id,
+                  });
+                } catch (err) {
+                  console.warn('notify failed', err.message);
+                }
               } else if (result.status == 'fail') {
                 Alert.alert(
                   `${result.status.toUpperCase()}`,
@@ -126,10 +149,20 @@ const AnonDetails = () => {
         .then((result) => {
           if (result.status == '200') {
             fetchData();
+            try {
+              sendNotification({
+                to: senderID,
+                type: 'reaction',
+                message: `Someone reacted to your post`,
+                postId: params.id,
+              });
+            } catch (err) {
+              console.warn('notify failed', err.message);
+            }
           } else if (result.status == 'fail') {
             Alert.alert(`${result.status.toUpperCase()}`, `${result.message}`);
           } else {
-            Alert.alert('Something went wrong. Please try again later');
+            Alert.alert('Somethin went wrong. Please try again later');
           }
         })
         .catch((err) => {
@@ -142,142 +175,163 @@ const AnonDetails = () => {
     }
   };
 
+  if (isSubmitting || isLoading) {
+    return (
+      <>
+        <View style={{ padding: 16 }}>
+          <View style={styles.skeletonCard} />
+          <View style={styles.skeletonLineShort} />
+          <View style={styles.skeletonLine} />
+        </View>
+        <View style={{ padding: 16 }}>
+          <View style={styles.skeletonCard} />
+          <View style={styles.skeletonLineShort} />
+          <View style={styles.skeletonLine} />
+        </View>
+        <View style={{ padding: 16 }}>
+          <View style={styles.skeletonCard} />
+          <View style={styles.skeletonLineShort} />
+          <View style={styles.skeletonLine} />
+        </View>
+      </>
+    );
+  }
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#355e3b' }}>
+    <SafeKeyboardView
+      style={{ flex: 1, backgroundColor: data?.color || COLORS.lightWhite }}
+    >
       <Stack.Screen
         options={{
-          headerStyle: { backgroundColor: COLORS.lightWhite },
+          headerStyle: { backgroundColor: COLORS.primary },
           headerShadowVisible: false,
           headerBackVisible: true,
           headerTitle: `Message Details`,
           headerBackButtonDisplayMode: 'minimal',
         }}
       />
-      <>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        >
-          {isLoading ? (
-            <ActivityIndicator size="large" color={COLORS.primary} />
-          ) : error ? (
-            ((<ErrorView msg={'Something went wrong. Please try again'} />),
-            Alert.alert('Something went wrong.', error.message))
-          ) : data.length === 0 || data == null ? (
-            <ErrorView msg={'No Data!!!'} />
-          ) : (
-            <View style={{ padding: SIZES.medium, paddingBottom: 20 }}>
-              <View
-                style={{
-                  backgroundColor: COLORS.lightWhite,
-                  borderRadius: 20,
-                  paddingVertical: 15,
-                }}
-              >
-                <View style={styles.textContainer}>
-                  <Text style={styles.anonName}>{data?.message}</Text>{' '}
-                  <View
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        {error ? (
+          ((<ErrorView msg={'Something went wrong. Please try again'} />),
+          Alert.alert('Something went wrong.', error.message))
+        ) : data.length === 0 || data == null ? (
+          <ErrorView msg={'No Data!!!'} />
+        ) : (
+          <View style={{ padding: SIZES.medium, paddingBottom: 20 }}>
+            <View
+              style={{
+                backgroundColor: COLORS.lightWhite,
+                borderRadius: 20,
+                paddingVertical: 15,
+              }}
+            >
+              <View style={styles.textContainer}>
+                <Text style={styles.anonName}>{data?.message}</Text>{' '}
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    marginTop: 10,
+                  }}
+                >
+                  <Text style={styles.anonComment}>
+                    {data.comments.length} Comments
+                  </Text>
+                  <View style={{ paddingRight: 15 }} />
+
+                  <TouchableOpacity
+                    onPress={submitMyReactionLike}
                     style={{
-                      flex: 1,
-                      flexDirection: 'row',
-                      marginTop: 10,
+                      paddingRight: 10,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      alignContent: 'center',
+                      alignSelf: 'center',
                     }}
                   >
-                    <Text style={styles.anonComment}>
-                      {data.comments.length} Comments
-                    </Text>
-                    <View style={{ paddingRight: 15 }} />
-
-                    <TouchableOpacity
-                      onPress={submitMyReactionLike}
-                      style={{
-                        paddingRight: 10,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        alignContent: 'center',
-                        alignSelf: 'center',
-                      }}
-                    >
-                      <Icon name={'heart'} size={20} color={'#355e3b'} />
-                    </TouchableOpacity>
-                    <Text style={styles.anonLike}>
-                      {data.reactions.length} Likes
-                    </Text>
-                    <View style={{ paddingRight: 15 }} />
-                    <Icon name={'time'} size={20} color={'#355e3b'} />
-                    <Text
-                      style={{
-                        alignContent: 'end',
-                        alignSelf: 'flex-end',
-                        fontSize: 12,
-                      }}
-                    >
-                      {new Date(data?.createdAt).toLocaleString()}
-                    </Text>
-                  </View>
-                </View>
-              </View>
-              <View
-                style={{
-                  width: '100%',
-                  paddingVertical: 10,
-                  alignContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: 20,
-                }}
-              />
-              {isLoading ? (
-                <ActivityIndicator size="large" color={COLORS.primary} />
-              ) : error ? (
-                <ErrorView msg={'Something went wrong. Please try again'} />
-              ) : data?.comments.length === 0 || data == null ? (
-                <ErrorView msg={'No Comments!!!'} />
-              ) : (
-                <FlatList
-                  data={data?.comments}
-                  renderItem={({ item }) => (
-                    <CommentCard
-                      comment={item}
-                      index={senderID}
-                      commentors={data?.commentors}
-                    />
-                  )}
-                  keyExtractor={(data) => data?._id}
-                  contentContainerStyle={{ columnGap: SIZES.medium }}
-                  vertical
-                  showsVerticalScrollIndicator={false}
-                />
-              )}
-              <View style={{ flexDirection: 'row' }}>
-                <View style={styles.commentsearchcontainer}>
-                  <View style={styles.commentContainer}>
-                    <View style={styles.commentWrapper}>
-                      <TextInput
-                        style={styles.commentInput}
-                        placeholder="Leave a comment"
-                        placeholderTextColor={COLORS.black}
-                        value={commentText}
-                        onChangeText={(e) => setCommentText({ comment: e })}
-                        multiline={true}
-                        maxLength={600}
-                      />
-                    </View>
-                    <TouchableOpacity
-                      style={styles.commentBtnUpload}
-                      onPress={submitMyComment}
-                    >
-                      <Icon name={'send'} size={35} color={'#355e3b'} />
-                    </TouchableOpacity>
-                  </View>
+                    <Icon name={'heart'} size={20} color={'#355e3b'} />
+                  </TouchableOpacity>
+                  <Text style={styles.anonLike}>
+                    {data.reactions.length} Likes
+                  </Text>
+                  <View style={{ paddingRight: 15 }} />
+                  <Icon name={'time'} size={20} color={'#355e3b'} />
+                  <Text
+                    style={{
+                      alignContent: 'end',
+                      alignSelf: 'flex-end',
+                      fontSize: 12,
+                    }}
+                  >
+                    {new Date(data?.createdAt).toLocaleString()}
+                  </Text>
                 </View>
               </View>
             </View>
-          )}
-        </ScrollView>
-      </>
-    </SafeAreaView>
+            <View
+              style={{
+                width: '100%',
+                paddingVertical: 10,
+                alignContent: 'center',
+                alignItems: 'center',
+                borderRadius: 20,
+              }}
+            />
+            {error ? (
+              <ErrorView msg={'Something went wrong. Please try again'} />
+            ) : data?.comments.length === 0 || data == null ? (
+              <ErrorView msg={'No Comments!!!'} />
+            ) : (
+              <FlatList
+                data={data?.comments}
+                renderItem={({ item }) => (
+                  <CommentCard
+                    comment={item}
+                    index={senderID}
+                    commentors={data?.commentors}
+                  />
+                )}
+                keyExtractor={(data) => data?._id}
+                contentContainerStyle={{
+                  columnGap: SIZES.medium,
+                  paddingBottom: 120,
+                }}
+                vertical
+                showsVerticalScrollIndicator={false}
+              />
+            )}
+            <View style={{ flexDirection: 'row' }}>
+              <View style={styles.commentsearchcontainer}>
+                <View style={styles.commentContainer}>
+                  <View style={styles.commentWrapper}>
+                    <TextInput
+                      style={styles.commentInput}
+                      placeholder="Leave a comment"
+                      placeholderTextColor={COLORS.black}
+                      value={commentText.comment}
+                      onChangeText={(e) => setCommentText({ comment: e })}
+                      multiline={true}
+                      maxLength={600}
+                    />
+                  </View>
+                  <TouchableOpacity
+                    style={styles.commentBtnUpload}
+                    onPress={submitMyComment}
+                  >
+                    <Icon name={'send'} size={25} color={'#355e3b'} />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </View>
+        )}
+      </ScrollView>
+    </SafeKeyboardView>
   );
 };
 

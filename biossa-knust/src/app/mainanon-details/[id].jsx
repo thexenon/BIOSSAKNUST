@@ -3,14 +3,16 @@ import {
   Text,
   View,
   ScrollView,
-  ActivityIndicator,
   FlatList,
   TouchableOpacity,
   RefreshControl,
   TextInput,
   Alert,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import SafeKeyboardView from '../../components/SafeKeyboardView';
+import { Share } from 'react-native';
+import * as Linking from 'expo-linking';
+import { sendNotification } from '../../utils/user_api';
 import { Stack } from 'expo-router';
 import { useGlobalSearchParams } from 'expo-router/build/hooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -18,7 +20,7 @@ import { ErrorView } from '../../components';
 import { COLORS, SIZES } from '../../constants';
 import styles from '../../styles/globalStyles';
 import { submitComment, submitArray, getItemById } from '../../utils/user_api';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Ionicons as Icon } from '@expo/vector-icons';
 
 let senderID = '';
 
@@ -51,6 +53,19 @@ const AnonDetails = () => {
     fetchData();
   }, []);
 
+  const onShare = async () => {
+    try {
+      const url = Linking.createURL(`mainanon-details/${params.id}`);
+      await Share.share({
+        message: `Check out this anonymous post on BIOSSA: ${url}`,
+        url,
+        title: 'BIOSSA - Anonymous Post',
+      });
+    } catch (error) {
+      Alert.alert('Share failed', error.message);
+    }
+  };
+
   const refetch = () => {
     setIsLoading(true);
     fetchData();
@@ -75,9 +90,6 @@ const AnonDetails = () => {
     }
 
     setSubmitting(true);
-    if (isSubmitting) {
-      return <ActivityIndicator size="large" color={COLORS.primary} />;
-    }
 
     try {
       await submitArray(
@@ -93,6 +105,17 @@ const AnonDetails = () => {
               if (result.status == '201') {
                 setCommentText({ comment: '' });
                 fetchData();
+                // notify post sender
+                try {
+                  sendNotification({
+                    to: senderID,
+                    type: 'comment',
+                    message: `${commentText.comment}`,
+                    postId: params.id,
+                  });
+                } catch (err) {
+                  console.warn('notify failed', err.message);
+                }
               } else if (result.status == 'fail') {
                 Alert.alert(
                   `${result.status.toUpperCase()}`,
@@ -126,6 +149,16 @@ const AnonDetails = () => {
         .then((result) => {
           if (result.status == '200') {
             fetchData();
+            try {
+              sendNotification({
+                to: senderID,
+                type: 'reaction',
+                message: `Someone reacted to your post`,
+                postId: params.id,
+              });
+            } catch (err) {
+              console.warn('notify failed', err.message);
+            }
           } else if (result.status == 'fail') {
             Alert.alert(`${result.status.toUpperCase()}`, `${result.message}`);
           } else {
@@ -142,11 +175,35 @@ const AnonDetails = () => {
     }
   };
 
+  if (isSubmitting || isLoading) {
+    return (
+      <>
+        <View style={{ padding: 16 }}>
+          <View style={styles.skeletonCard} />
+          <View style={styles.skeletonLineShort} />
+          <View style={styles.skeletonLine} />
+        </View>
+        <View style={{ padding: 16 }}>
+          <View style={styles.skeletonCard} />
+          <View style={styles.skeletonLineShort} />
+          <View style={styles.skeletonLine} />
+        </View>
+        <View style={{ padding: 16 }}>
+          <View style={styles.skeletonCard} />
+          <View style={styles.skeletonLineShort} />
+          <View style={styles.skeletonLine} />
+        </View>
+      </>
+    );
+  }
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#355e3b' }}>
+    <SafeKeyboardView
+      style={{ flex: 1, backgroundColor: data?.color || COLORS.lightWhite }}
+    >
       <Stack.Screen
         options={{
-          headerStyle: { backgroundColor: COLORS.lightWhite },
+          headerStyle: { backgroundColor: COLORS.primary },
           headerShadowVisible: false,
           headerBackVisible: true,
           headerTitle: `Message Details`,
@@ -159,9 +216,7 @@ const AnonDetails = () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        {isLoading ? (
-          <ActivityIndicator size="large" color={COLORS.primary} />
-        ) : error ? (
+        {error ? (
           ((<ErrorView msg={'Something went wrong. Please try again'} />),
           Alert.alert('Something went wrong.', error.message))
         ) : data.length === 0 || data == null ? (
@@ -227,9 +282,7 @@ const AnonDetails = () => {
                 borderRadius: 20,
               }}
             />
-            {isLoading ? (
-              <ActivityIndicator size="large" color={COLORS.primary} />
-            ) : error ? (
+            {error ? (
               <ErrorView msg={'Something went wrong. Please try again'} />
             ) : data?.comments.length === 0 || data == null ? (
               <ErrorView msg={'No Comments!!!'} />
@@ -244,7 +297,10 @@ const AnonDetails = () => {
                   />
                 )}
                 keyExtractor={(data) => data?._id}
-                contentContainerStyle={{ columnGap: SIZES.medium }}
+                contentContainerStyle={{
+                  columnGap: SIZES.medium,
+                  paddingBottom: 120,
+                }}
                 vertical
                 showsVerticalScrollIndicator={false}
               />
@@ -257,7 +313,7 @@ const AnonDetails = () => {
                       style={styles.commentInput}
                       placeholder="Leave a comment"
                       placeholderTextColor={COLORS.black}
-                      value={commentText}
+                      value={commentText.comment}
                       onChangeText={(e) => setCommentText({ comment: e })}
                       multiline={true}
                       maxLength={600}
@@ -267,7 +323,7 @@ const AnonDetails = () => {
                     style={styles.commentBtnUpload}
                     onPress={submitMyComment}
                   >
-                    <Icon name={'send'} size={35} color={'#355e3b'} />
+                    <Icon name={'send'} size={25} color={'#355e3b'} />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -275,7 +331,7 @@ const AnonDetails = () => {
           </View>
         )}
       </ScrollView>
-    </SafeAreaView>
+    </SafeKeyboardView>
   );
 };
 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { View, ScrollView, Text, Image } from 'react-native';
 import { useRouter } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import SafeKeyboardView from '../../components/SafeKeyboardView';
 import { COLORS, images, SIZES } from '../../constants';
 import CustomButton from '../../components/CustomButton';
 import styles from '../../styles/globalStyles';
@@ -9,7 +9,7 @@ import styles from '../../styles/globalStyles';
 const Auth = () => {
   const router = useRouter();
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.gray }}>
+    <SafeKeyboardView style={{ flex: 1, backgroundColor: COLORS.gray }}>
       <ScrollView showsHorizontalScrollIndicator={false}>
         <View style={{ flex: 1, padding: SIZES.medium }}>
           <Text style={styles.welcome}>Welcome to</Text>
@@ -45,7 +45,7 @@ const Auth = () => {
           />
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </SafeKeyboardView>
   );
 };
 

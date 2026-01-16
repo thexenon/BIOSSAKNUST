@@ -4,14 +4,13 @@ import {
   View,
   Text,
   TouchableOpacity,
-  ActivityIndicator,
   FlatList,
   ScrollView,
   Alert,
   TextInput,
   RefreshControl,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import SafeKeyboardView from '../../components/SafeKeyboardView';
 import { COLORS, SIZES } from '../../constants';
 import styles from '../../styles/globalStyles';
 import { ErrorView } from '../../components';
@@ -90,9 +89,30 @@ const CreatorYearAnon = () => {
   const filteredData = data.filter((item) =>
     item.message.toLowerCase().includes(searchQuery.toLowerCase())
   );
+  if (isLoading) {
+    return (
+      <>
+        <View style={{ padding: 16 }}>
+          <View style={styles.skeletonCard} />
+          <View style={styles.skeletonLineShort} />
+          <View style={styles.skeletonLine} />
+        </View>
+        <View style={{ padding: 16 }}>
+          <View style={styles.skeletonCard} />
+          <View style={styles.skeletonLineShort} />
+          <View style={styles.skeletonLine} />
+        </View>
+        <View style={{ padding: 16 }}>
+          <View style={styles.skeletonCard} />
+          <View style={styles.skeletonLineShort} />
+          <View style={styles.skeletonLine} />
+        </View>
+      </>
+    );
+  }
 
   return (
-    <SafeAreaView
+    <SafeKeyboardView
       style={{ flex: 1, marginTop: 20, marginBottom: 30, paddingBottom: 30 }}
     >
       <View>
@@ -160,9 +180,7 @@ const CreatorYearAnon = () => {
             </View>
 
             <View style={styles.homecardsContainer}>
-              {isLoading ? (
-                <ActivityIndicator size="large" color={COLORS.primary} />
-              ) : error ? (
+              {error ? (
                 ((<ErrorView msg={'Something went wrong. Please try again'} />),
                 Alert.alert('Something went wrong.', error.message))
               ) : data.length === 0 || data == null ? (
@@ -189,7 +207,7 @@ const CreatorYearAnon = () => {
           </View>
         </ScrollView>
       </View>
-    </SafeAreaView>
+    </SafeKeyboardView>
   );
 };
 

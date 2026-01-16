@@ -1,0 +1,13 @@
+body {
+  margin: 0;
+  background: #fafafa;
+  color: #222;
+}
+a {
+  color: #1e88e5;
+}
+
+div {
+  max-width: 900px;
+  margin: 0 auto;
+}

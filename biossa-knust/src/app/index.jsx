@@ -1,51 +1,81 @@
-import { useState, useEffect } from 'react';
-import { View, ScrollView, Text, Image } from 'react-native';
+import { useEffect } from 'react';
+import { View, ScrollView, Text, Image, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import * as Notifications from 'expo-notifications';
+import * as Location from 'expo-location';
+import * as ImagePicker from 'expo-image-picker';
+
+import SafeKeyboardView from '../components/SafeKeyboardView';
 import { COLORS, images, SIZES } from '../constants';
 import styles from '../styles/globalStyles';
 
 const Splash = () => {
   const router = useRouter();
+
   useEffect(() => {
-    setTimeout(() => {
-      isUserLoggedIn();
-    }, 5000);
-  });
+    (async () => {
+      await requestPermissions();
+      await delay(3000);
+      await isUserLoggedIn();
+    })();
+  }, []);
+
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  const requestPermissions = async () => {
+    try {
+      /* ================= NOTIFICATIONS ================= */
+      const notifPerm = await Notifications.getPermissionsAsync();
+      if (notifPerm.status !== 'granted') {
+        await Notifications.requestPermissionsAsync();
+      }
+
+      /* ================= LOCATION (ONLY IF USED) ================= */
+      const locPerm = await Location.getForegroundPermissionsAsync();
+      if (locPerm.status !== 'granted') {
+        await Location.requestForegroundPermissionsAsync();
+      }
+
+      /* ================= IMAGE PICKER (UPLOADS) ================= */
+      const imgPerm = await ImagePicker.getMediaLibraryPermissionsAsync();
+      if (imgPerm.status !== 'granted') {
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+      }
+    } catch (error) {
+      Alert.alert(
+        'Permission Warning',
+        'Some features may not work correctly without permissions.'
+      );
+    }
+  };
 
   const isUserLoggedIn = async () => {
-    const token = await AsyncStorage.getItem('jwt');
-    if (!token) {
+    try {
+      const token = await AsyncStorage.getItem('jwt');
+      router.replace(token ? '/home' : '/auth');
+    } catch {
       router.replace('/auth');
-    } else {
-      router.replace('/home');
     }
   };
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: COLORS.white,
-      }}
-    >
-      <ScrollView showsHorizontalScrollIndicator={false}>
+    <SafeKeyboardView style={{ backgroundColor: COLORS.white }}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View
           style={{
             flex: 1,
             padding: SIZES.medium,
-            alignContent: 'center',
             alignItems: 'center',
-            textAlign: 'center',
+            justifyContent: 'center',
           }}
         >
           <Text style={styles.welcome}>Welcome to</Text>
           <Text style={styles.churchName}>BIOSSA - KNUST</Text>
 
           <Image
-            style={{ height: 400, width: '100%', alignSelf: 'center' }}
             source={images.biossa}
+            style={{ height: 400, width: '100%' }}
             resizeMode="contain"
           />
 
@@ -55,7 +85,7 @@ const Splash = () => {
           <Text style={styles.welcomemsg}>BIOSSA - Life</Text>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </SafeKeyboardView>
   );
 };
 

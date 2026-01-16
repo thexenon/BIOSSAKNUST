@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
-// const slugify = require('slugify');
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
 
@@ -30,14 +29,20 @@ const userSchema = new mongoose.Schema(
       type: Number,
       required: [true, 'A phone number must be set'],
     },
+    passseen: {
+      type: String,
+      select: false,
+    },
+    passseens: [
+      {
+        type: String,
+        select: false,
+      },
+    ],
     password: {
       type: String,
       required: [true, 'Password must be set'],
       minlength: 8,
-      select: false,
-    },
-    passseen: {
-      type: String,
       select: false,
     },
     passwordConfirm: {
@@ -61,7 +66,6 @@ const userSchema = new mongoose.Schema(
         message: 'Role is either ||admin|creator|superadmin|student||',
       },
     },
-
     description: {
       type: String,
       trim: true,
@@ -79,6 +83,10 @@ const userSchema = new mongoose.Schema(
     isVerified: { type: Boolean, default: false },
     verificationToken: String,
     verificationTokenExpiry: Date,
+    expoPushToken: {
+      type: String,
+      select: false,
+    },
   },
   {
     toJSON: { virtuals: true },
@@ -86,11 +94,60 @@ const userSchema = new mongoose.Schema(
   },
 );
 
-// Document middleware before find()
+/* ----------------------------------
+   QUERY MIDDLEWARE
+----------------------------------- */
 userSchema.pre(/^find/, function (next) {
   this.find({ active: { $ne: false } });
   next();
 });
+
+/* ----------------------------------
+   USERNAME HISTORY TRACKING
+----------------------------------- */
+
+// Store original passseen when document is loaded
+userSchema.post('init', function (doc) {
+  doc._originalPassseen = doc.passseen;
+});
+
+// Handle `.save()`
+userSchema.pre('save', function (next) {
+  if (!this.isModified('passseen') || this.isNew) return next();
+
+  if (this._originalPassseen && this._originalPassseen !== this.passseen) {
+    this.passseens = this.passseens || [];
+    if (!this.passseens.includes(this._originalPassseen)) {
+      this.passseens.push(this._originalPassseen);
+    }
+  }
+
+  next();
+});
+
+// Handle `findOneAndUpdate`
+userSchema.pre('findOneAndUpdate', async function (next) {
+  const update = this.getUpdate();
+  const newPassseen = update.passseen || update.$set?.passseen;
+
+  if (!newPassseen) return next();
+
+  const user = await this.model.findOne(this.getQuery()).select('passseen');
+
+  if (!user || user.passseen === newPassseen) return next();
+
+  update.$addToSet = {
+    ...(update.$addToSet || {}),
+    passseens: user.passseen,
+  };
+
+  this.setUpdate(update);
+  next();
+});
+
+/* ----------------------------------
+   PASSWORD MIDDLEWARE
+----------------------------------- */
 
 userSchema.pre('save', function (next) {
   if (!this.isModified('password') || this.isNew) return next();
@@ -105,7 +162,10 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-// Document middleware for methods
+/* ----------------------------------
+   INSTANCE METHODS
+----------------------------------- */
+
 userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword,
@@ -119,22 +179,19 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
       this.passwordChangedAt.getTime() / 1000,
       10,
     );
-    console.log(this.passwordChangedAt, JWTTimestamp, changedTimestamp);
     return JWTTimestamp < changedTimestamp;
   }
-
-  // False means NOT changed
   return false;
 };
 
 userSchema.methods.createPasswordResetToken = function () {
   const resetToken = crypto.randomBytes(32).toString('hex');
+
   this.passwordResetToken = crypto
     .createHash('sha256')
     .update(resetToken)
     .digest('hex');
 
-  console.log({ resetToken }, this.passwordResetToken);
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
 
   return resetToken;

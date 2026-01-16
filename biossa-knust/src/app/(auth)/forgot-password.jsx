@@ -1,69 +1,69 @@
-import { useState } from "react";
-import { router, Stack } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useState } from 'react';
+import { router, Stack } from 'expo-router';
+import SafeKeyboardView from '../../components/SafeKeyboardView';
 import {
   View,
   Text,
   ScrollView,
   Alert,
   Image,
-  TextInput,
   ActivityIndicator,
-} from "react-native";
+  TextInput,
+} from 'react-native';
 
-import { COLORS, images } from "../../constants";
-import { CustomButton } from "../../components";
-import { forgotPass } from "../../utils/user_api";
-import styles from "../../styles/globalStyles";
+import { COLORS, images } from '../../constants';
+import { CustomButton } from '../../components';
+import { forgotPass } from '../../utils/user_api';
+import styles from '../../styles/globalStyles';
 
 const SignIn = () => {
   const [isSubmitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
   const submit = async () => {
-    if (form.email === "") {
-      return Alert.alert("Error", "Please fill in your email");
+    if (form.email === '') {
+      return Alert.alert('Error', 'Please fill in your email');
     }
 
     setSubmitting(true);
     try {
       forgotPass({ email: form.email })
         .then(async (result) => {
-          if (result.status == "200") {
+          if (result.status == '200') {
             Alert.alert(
-              "Email Sent!",
+              'Email Sent!',
               `Check your mail for the Forget Password email to change your password`
             );
-            router.push("/auth");
-          } else if (result.status == "fail") {
+            router.push('/auth');
+          } else if (result.status == 'fail') {
             Alert.alert(`${result.status.toUpperCase()}`, `${result.message}`);
             setSubmitting(false);
           } else {
-            Alert.alert("Somethin went wrong. Please try again later");
+            Alert.alert('Somethin went wrong. Please try again later');
             setSubmitting(false);
           }
         })
         .catch((err) => {
-          Alert.alert("Error", err);
+          Alert.alert('Error', err);
           setSubmitting(false);
         });
     } catch (error) {
-      Alert.alert("Error", error.message);
+      Alert.alert('Error', error.message);
       setSubmitting(false);
     }
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
+    <SafeKeyboardView style={{ flex: 1, backgroundColor: COLORS.white }}>
       <Stack.Screen
         options={{
-          headerStyle: { backgroundColor: COLORS.lightWhite },
+          headerStyle: { backgroundColor: COLORS.primary },
           headerShadowVisible: false,
           headerBackVisible: true,
-          headerTitle: "Forgot Password",
+          headerTitle: 'Forgot Password',
         }}
       />
       <ScrollView>
@@ -72,7 +72,7 @@ const SignIn = () => {
             style={{
               height: 200,
               width: 200,
-              alignSelf: "center",
+              alignSelf: 'center',
               marginTop: 40,
             }}
             source={images.biossa}
@@ -101,7 +101,7 @@ const SignIn = () => {
                 </View>
 
                 <CustomButton
-                  color={"#008000"}
+                  color={'#008000'}
                   text="Forget Password"
                   handlePress={submit}
                   isLoading={isSubmitting}
@@ -111,7 +111,7 @@ const SignIn = () => {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </SafeKeyboardView>
   );
 };
 

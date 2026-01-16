@@ -194,3 +194,17 @@ export const updateItem = async (reqParams, id, reqData) => {
     return error.response.data;
   }
 };
+
+export const sendNotification = async (reqData) => {
+  const headers = await getHeadersWithJwt();
+  try {
+    const result = await ApiManager('/api/v1/notifications', {
+      method: 'POST',
+      headers,
+      data: reqData,
+    });
+    return result;
+  } catch (error) {
+    return error.response?.data || { status: 'error', message: error.message };
+  }
+};
