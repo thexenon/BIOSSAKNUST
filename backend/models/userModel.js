@@ -21,8 +21,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, 'A Level must be set'],
       enum: {
-        values: ['100', '200', '300', '400'],
-        message: 'Level is either ||100|200|300|400||',
+        values: ['100', '200', '300', '400', '500'],
+        message: 'Level is either ||100|200|300|400|500||',
       },
     },
     phone: {
